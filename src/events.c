@@ -13,17 +13,6 @@ void * change_to_view_mode() {
     return NULL;
 }
 
-void keyboard_event_special(int key, int x, int y) {
-    switch (key) {
-        case GLUT_KEY_F10   : exit(0);
-        case GLUT_KEY_F12   : break; // fullscreen
-        case GLUT_KEY_LEFT  : break;
-        case GLUT_KEY_RIGHT : break;
-        case GLUT_KEY_UP    : break;
-        case GLUT_KEY_DOWN  : break;
-    }
-}
-
 void * event_keyboard(Object p, Keyboard_Key_t event_key) {
     switch (event_key) {
         case CREATING_POINT   : return create_point(p);
@@ -41,6 +30,17 @@ void * event_keyboard(Object p, Keyboard_Key_t event_key) {
 
 void keyboard_event(unsigned char key, int x, int y) {
     mode = key;
+}
+
+void keyboard_event_special(int key, int x, int y) {
+    switch (key) {
+        case GLUT_KEY_F10   : exit(0);
+        case GLUT_KEY_F12   : break; // fullscreen
+        case GLUT_KEY_LEFT  : break;
+        case GLUT_KEY_RIGHT : break;
+        case GLUT_KEY_UP    : break;
+        case GLUT_KEY_DOWN  : break;
+    }
 }
 
 void mouse_event(int button, int state, int x, int y) {
