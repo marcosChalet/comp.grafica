@@ -13,7 +13,7 @@ Structure * create_structure() {
     veirfy_allocation_error(new_list);
     new_list->head = NULL;
     new_list->tail = NULL;
-    new_list->num_items = 0;
+    new_list->num_objects = 0;
     return new_list;
 }
 
@@ -58,19 +58,19 @@ bool add_object(Structure * list, const Object myObject) {
     if (list->head == NULL) {
         list->head = newNode;
         list->tail = list->head;
-        list->num_items = 1;
+        list->num_objects = 1;
         return true;
     }
 
     list->tail->next = newNode;
     list->tail = newNode;
-    list->num_items++;
+    list->num_objects++;
 
     return true;
 }
 
-int get_num_items(Structure * list) {
-    return list->num_items;
+int get_num_objects(Structure * list) {
+    return list->num_objects;
 }
 
 Node_ptr get_first(Structure * list) {
@@ -81,7 +81,7 @@ Node_ptr get_last(Structure * list) {
     return list->tail;
 }
 
-Object get_item(Structure * list, int id) {
+Object get_object(Structure * list, int id) {
     Node_ptr aux = list->head;
     while(aux->next) {
         if (aux->id == id) {
@@ -93,16 +93,16 @@ Object get_item(Structure * list, int id) {
 }
 
 Node_ptr * get_all(Structure * list) {
-    Node_ptr * all_items = malloc(sizeof(Node_ptr) * (list->num_items + 1));
-    veirfy_allocation_error(all_items);
+    Node_ptr * all_objects = malloc(sizeof(Node_ptr) * (list->num_objects + 1));
+    veirfy_allocation_error(all_objects);
 
     Node_ptr aux = list->head;
-    for(int i = 0; i < list->num_items; i++) {
-        all_items[i] = aux;
+    for(int i = 0; i < list->num_objects; i++) {
+        all_objects[i] = aux;
         aux = aux->next;
     }
 
-    all_items[list->num_items] = NULL;
+    all_objects[list->num_objects] = NULL;
 
-    return all_items;
+    return all_objects;
 }

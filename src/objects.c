@@ -36,7 +36,7 @@ char * polygon_to_string(const Polygon *plg) {
     if (plg->vertices == NULL) return NULL;
     if (plg->vertices->head == NULL) return NULL;
 
-    size_t num_vertices = plg->vertices->num_items;
+    size_t num_vertices = get_num_objects(plg->vertices);
     size_t total_size = num_vertices * (POINT_BUFFER_SIZE - 1) + (num_vertices > 0 ? (num_vertices - 1) * 2 : 0) + 3;
     
     char *buffer = malloc(total_size);
@@ -89,6 +89,11 @@ void * object_factory(const Object data, const Objec_t type) {
     }
 }
 
+void * create_point(Point * p) {
+    if (p == NULL) return NULL;
+    return object_factory(p, POINT);
+}
+
 void * create_line(Point * p) {
     creating_line = !creating_line;
     creating_polygon = false;
@@ -120,18 +125,4 @@ void * create_polygon(Point * p) {
 
     add_object(polygon_vertices_aux, p);
     return NULL;
-}
-
-void * event_keyboard(Object p, Keyboard_Key_t event_key, int id) {
-    switch (event_key) {
-        case CREATING_POINT  : return object_factory(p, POINT);
-        case CREATING_LINE   : return create_line(p);
-        case CREATING_POLYGON: return create_polygon(p);
-        case DELETE_OBJECT   : return NULL; // remove pelo id, se diferente de -1
-        case ROTATE          : return NULL;
-     // case ...             : ...
-     // case ...             : ...
-     // case ...             : ...
-        default              : return NULL;
-    }
 }

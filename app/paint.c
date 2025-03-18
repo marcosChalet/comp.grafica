@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <GL/glut.h>
-#include "utils.h"
-#include "objects.h"
-#include "objects_data_structure.h"
+#include "events.h"
 
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -29,69 +27,17 @@ void init(void) {
 }
 
 int main(int argc, char** argv) {
-
-    /**
-     * Template de execução! posteriormente será implementado
-     * o projeto do paint (definição de tela, etc).
-     */
-
-    /* Exemplo de ponto */
-    Point* newPoint1 = malloc(sizeof(Point));
-    Point* newPoint2 = malloc(sizeof(Point));
-    newPoint1->x = 3; newPoint1->y = 5;
-    newPoint2->x = 7; newPoint2->y = 9;
-
-    Point* p1 = event_keyboard(newPoint1, 'p');
-    Point* p2 = event_keyboard(newPoint2, 'p');
-
-    // Deletar elemento / obj é a estrutura de dados quem tem esse elemento
-    // A sobrecarga já está implementada
-    // Point* p3 = event_keyboard(obj, 'd', 2);
-
-
-    /* Exemplo de linha */
-    Line* l1;
-    l1 = event_keyboard(p1, 'l');
-    l1 = event_keyboard(p2, 'l');
-
-    Line* l2;
-    l2 = event_keyboard(p2, 'l');
-    l2 = event_keyboard(p1, 'l');
-    
-
-    /* Exemplo de polígono */
-    Polygon * plg1 = event_keyboard(p1, 'g');
-    event_keyboard(p2, 'g');
-    event_keyboard(p2, 'g');
-    event_keyboard(p2, 'g');
-    event_keyboard(p1, 'g');
-    event_keyboard(NULL, 'g');
-
-    Polygon * plg2 = event_keyboard(p2, 'g');
-    event_keyboard(p1, 'g');
-    event_keyboard(p1, 'g');
-    event_keyboard(p1, 'g');
-    event_keyboard(p2, 'g');
-    event_keyboard(NULL, 'g');
-
-
-    /* Mostrando resultado */
-    printf("p1: %s\n", to_string(p1));
-    printf("p2: %s\n", to_string(p2));
-    printf("l1: %s\n", to_string(l1));
-    printf("l2: %s\n", to_string(l2));
-    printf("plg1: %s\n", to_string(plg1));
-    printf("plg2: %s\n", to_string(plg2));
-
-    /* Testando OpenGL */
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(400, 300);
     glutInitWindowPosition(200, 0);
-    glutCreateWindow("Triangulo em OpenGL");
+    glutCreateWindow("PAINT");
 
     init();
     glutDisplayFunc(display);
+    glutKeyboardFunc(keyboard_event);
+    glutSpecialFunc(keyboard_event_special);
+    glutMouseFunc(mouse_event);
     glutMainLoop();
     return 0;
 }

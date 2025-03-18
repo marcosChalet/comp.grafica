@@ -13,7 +13,7 @@ typedef struct node {
 } Node;
 
 typedef struct structure {
-    int num_items;
+    int num_objects;
     Node_ptr head;
     Node_ptr tail;
 } Structure;
@@ -21,10 +21,10 @@ typedef struct structure {
 Structure * create_structure();
 bool add_object(Structure *, const Object);
 bool remove_object(Structure *, const int);
-int get_num_items(Structure *);
+int get_num_objects(Structure *);
 Node_ptr get_first(Structure *);
 Node_ptr get_last(Structure *);
 Node_ptr * get_all(Structure *);
-Object get_item(Structure *, int);
+Object get_object(Structure *, int);
 
 #endif

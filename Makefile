@@ -9,6 +9,7 @@ all: libsPaint myPaintApp
 
 libsPaint: \
 	$(OBJ)/utils.o \
+	$(OBJ)/events.o \
 	$(OBJ)/objects.o \
 	$(OBJ)/objects_data_structure.o
 
