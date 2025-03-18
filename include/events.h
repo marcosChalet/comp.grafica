@@ -12,9 +12,8 @@ typedef enum {
     VIEW_MODE = 27,
 } Keyboard_Key_t;
 
-void mouse_event(int, int, int, int);
-void keyboard_event_special(int, int, int);
-void keyboard_event(unsigned char, int, int);
-void * event_keyboard(Object, Keyboard_Key_t);
+void handle_mouse_event(int, int, int, int);
+void handle_keyboard_event_special(int, int, int);
+void handle_keyboard_event(unsigned char, int, int);
 
 #endif

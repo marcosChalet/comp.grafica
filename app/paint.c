@@ -35,9 +35,9 @@ int main(int argc, char** argv) {
 
     init();
     glutDisplayFunc(display);
-    glutKeyboardFunc(keyboard_event);
-    glutSpecialFunc(keyboard_event_special);
-    glutMouseFunc(mouse_event);
+    glutKeyboardFunc(handle_keyboard_event);
+    glutSpecialFunc(handle_keyboard_event_special);
+    glutMouseFunc(handle_mouse_event);
     glutMainLoop();
     return 0;
 }

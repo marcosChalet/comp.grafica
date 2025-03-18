@@ -13,7 +13,7 @@ void * change_to_view_mode() {
     return NULL;
 }
 
-void * event_keyboard(Object p, Keyboard_Key_t event_key) {
+void * process_event(Object p, Keyboard_Key_t event_key) {
     switch (event_key) {
         case CREATING_POINT   : return create_point(p);
         case CREATING_LINE    : return create_line(p);
@@ -28,11 +28,11 @@ void * event_keyboard(Object p, Keyboard_Key_t event_key) {
     }
 }
 
-void keyboard_event(unsigned char key, int x, int y) {
+void handle_keyboard_event(unsigned char key, int x, int y) {
     mode = key;
 }
 
-void keyboard_event_special(int key, int x, int y) {
+void handle_keyboard_event_special(int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_F10   : exit(0);
         case GLUT_KEY_F12   : break; // fullscreen
@@ -43,7 +43,7 @@ void keyboard_event_special(int key, int x, int y) {
     }
 }
 
-void mouse_event(int button, int state, int x, int y) {
+void handle_mouse_event(int button, int state, int x, int y) {
     int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
     int convertedY = windowHeight - y;
 
@@ -52,7 +52,7 @@ void mouse_event(int button, int state, int x, int y) {
     
     p->x = x;
     p->y = windowHeight - y;
-    Object obj = event_keyboard(p, mode);
+    Object obj = process_event(p, mode);
     if (obj == NULL) return;
 
     add_object(objects, obj);
