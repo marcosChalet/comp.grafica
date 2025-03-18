@@ -34,7 +34,7 @@ char * line_to_string(const Line * l) {
 char * polygon_to_string(const Polygon *plg) {
     if (plg == NULL) return NULL;
     if (plg->vertices == NULL) return NULL;
-    if (plg->vertices->head == NULL) return NULL;
+    if (get_first(plg->vertices) == NULL) return NULL;
 
     size_t num_vertices = get_num_objects(plg->vertices);
     size_t total_size = num_vertices * (POINT_BUFFER_SIZE - 1) + (num_vertices > 0 ? (num_vertices - 1) * 2 : 0) + 3;
