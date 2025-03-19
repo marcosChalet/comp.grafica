@@ -10,6 +10,7 @@ static Keyboard_Key_t mode = VIEW_MODE;
 void * process_event(Object, Keyboard_Key_t);
 
 void * change_to_view_mode() {
+    if(mode == VIEW_MODE) return NULL;
     process_event(NULL, mode);
     mode = VIEW_MODE;
     return NULL;
