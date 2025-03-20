@@ -29,6 +29,7 @@ typedef struct polygon {
     char * (*to_string)(struct polygon *);
 } Polygon;
 
+void disable_state();
 void * create_point(Point *);
 void * create_line(Point *);
 void * create_polygon(Point *);

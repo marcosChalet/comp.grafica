@@ -25,9 +25,7 @@ void draw_objects() {
 }
 
 void * change_to_view_mode() {
-    if(mode == VIEW_MODE) return NULL;
-    process_event(NULL, mode);
-    mode = VIEW_MODE;
+    disable_state();
     return NULL;
 }
 

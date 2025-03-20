@@ -135,6 +135,11 @@ void * object_factory(const Object data, const Objec_t type) {
     }
 }
 
+void disable_state() {
+    creating_polygon = false;
+    creating_line = false;
+}
+
 void * create_point(Point * p) {
     if (p == NULL) return NULL;
     creating_polygon = false;
