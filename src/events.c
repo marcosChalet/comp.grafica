@@ -4,10 +4,25 @@
 #include "events.h"
 #include "utils.h"
 
-Structure * objects;
+Structure objects;
 static Keyboard_Key_t mode = VIEW_MODE;
+extern int windowHeight;
 
 void * process_event(Object, Keyboard_Key_t);
+
+void draw_objects() {
+    int num_objects = get_num_objects(&objects);
+    Node_ptr * objects_list = get_all(&objects);
+    for (int i = 0; objects_list[i] != NULL; i++) {
+        switch (objects_list[i]->type)
+        {
+            case CREATING_POINT: draw(((Point*)objects_list[i]->object)); break;
+            case CREATING_LINE: draw(((Line*)objects_list[i]->object)); break;
+            case CREATING_POLYGON: draw(((Polygon*)objects_list[i]->object)); break;
+            default: break;
+        }
+    }
+}
 
 void * change_to_view_mode() {
     if(mode == VIEW_MODE) return NULL;
@@ -17,6 +32,7 @@ void * change_to_view_mode() {
 }
 
 void * process_event(Object p, Keyboard_Key_t event_key) {
+    glutPostRedisplay();
     switch (event_key) {
         case CREATING_POINT   : return create_point(p);
         case CREATING_LINE    : return create_line(p);
@@ -24,9 +40,12 @@ void * process_event(Object p, Keyboard_Key_t event_key) {
         case VIEW_MODE        : return change_to_view_mode();
         case DELETE_OBJECT    : return NULL;
         case ROTATE           : return NULL;
-     // case ...              : ...
-     // case ...              : ...
-     // case ...              : ...
+        case SELECT           : return NULL;
+        case TRANSLATE        : return NULL;
+        case SCALE_UP         : return NULL;
+        case SCALE_DOWN       : return NULL;
+        case REFLECT          : return NULL;
+        case SHEAR            : return NULL;
         default               : return NULL;
     }
 }
@@ -47,16 +66,15 @@ void handle_keyboard_event_special(int key, int x, int y) {
 }
 
 void handle_mouse_event(int button, int state, int x, int y) {
-    int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
-    int convertedY = windowHeight - y;
+    if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN) return;
 
     Point * p = malloc(sizeof(Point));
-    veirfy_allocation_error(p);
+    verify_allocation_error(p);
     
     p->x = x;
     p->y = windowHeight - y;
     Object obj = process_event(p, mode);
     if (obj == NULL) return;
 
-    add_object(objects, obj);
+    add_object(&objects, obj, mode);
 }

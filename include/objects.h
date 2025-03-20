@@ -12,19 +12,21 @@ typedef enum {
 
 typedef struct point {
     int x, y;
-    char * (*to_string)(const struct point *);
+    void (*draw)(struct point *);
+    char * (*to_string)(struct point *);
 } Point;
 
 typedef struct line {
     Point * s_point;
     Point * e_point;
-    char * (*to_string)(const struct line *);
+    void (*draw)(struct line *);
+    char * (*to_string)(struct line *);
 } Line;
 
 typedef struct polygon {
-    // Um Polygon é uma lista (ou alguma outra estrutura de dados) de pontos
     Structure * vertices;
-    char * (*to_string)(const struct polygon *);
+    void (*draw)(struct polygon *);
+    char * (*to_string)(struct polygon *);
 } Polygon;
 
 void * create_point(Point *);

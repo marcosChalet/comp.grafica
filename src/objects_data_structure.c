@@ -10,7 +10,7 @@ int generate_id() {
 
 Structure * create_structure() {
     Structure * new_list = malloc(sizeof(Structure));
-    veirfy_allocation_error(new_list);
+    verify_allocation_error(new_list);
     new_list->head = NULL;
     new_list->tail = NULL;
     new_list->num_objects = 0;
@@ -44,26 +44,28 @@ bool remove_object(Structure * list, const int id) {
     return true;
 }
 
-bool add_object(Structure * list, const Object myObject) {
+bool add_object(Structure * list, const Object my_object, int type) {
     if (is_empty(list)) {
         list = create_structure();
     }
 
-    Node_ptr newNode = malloc(sizeof(Node));
-    veirfy_allocation_error(newNode);
+    Node_ptr new_node = malloc(sizeof(Node));
+    verify_allocation_error(new_node);
 
-    newNode->id = generate_id();
-    newNode->object = myObject;
-    newNode->next = NULL;
+    new_node->id = generate_id();
+    new_node->object = my_object;
+    new_node->next = NULL;
+    new_node->type = type;
+
     if (list->head == NULL) {
-        list->head = newNode;
+        list->head = new_node;
         list->tail = list->head;
         list->num_objects = 1;
         return true;
     }
 
-    list->tail->next = newNode;
-    list->tail = newNode;
+    list->tail->next = new_node;
+    list->tail = new_node;
     list->num_objects++;
 
     return true;
@@ -93,8 +95,11 @@ Object get_object(Structure * list, int id) {
 }
 
 Node_ptr * get_all(Structure * list) {
+    
+    if (!list) return NULL;
+
     Node_ptr * all_objects = malloc(sizeof(Node_ptr) * (list->num_objects + 1));
-    veirfy_allocation_error(all_objects);
+    verify_allocation_error(all_objects);
 
     Node_ptr aux = list->head;
     for(int i = 0; i < list->num_objects; i++) {

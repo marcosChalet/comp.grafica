@@ -9,7 +9,7 @@ typedef struct node {
     Object object;
     Node_ptr next;
     Node_ptr prev;
-    int id;
+    int type, id;
 } Node;
 
 typedef struct structure {
@@ -19,12 +19,13 @@ typedef struct structure {
 } Structure;
 
 Structure * create_structure();
-bool add_object(Structure *, const Object);
 bool remove_object(Structure *, const int);
 int get_num_objects(Structure *);
 Node_ptr get_first(Structure *);
 Node_ptr get_last(Structure *);
 Node_ptr * get_all(Structure *);
 Object get_object(Structure *, int);
+
+bool add_object(Structure *, const Object, int type);
 
 #endif
