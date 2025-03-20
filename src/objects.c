@@ -90,9 +90,17 @@ void draw_polygon(Polygon * self) {
         return;
     }
 
-    glColor3f(0.0, 0.0, 0.0);
+    glColor3f(0.9, 0.9, 0.9);
     glLineWidth(SIZE);
 
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < num_objects; i++) {
+        Point *p = (Point *)objects_list[i]->object;
+        glVertex2i(p->x, p->y);
+    }
+    glEnd();
+
+    glColor3f(0.4, 0.4, 0.4);
     glBegin(GL_LINE_LOOP);
     for (int i = 0; i < num_objects; i++) {
         Point *p = (Point *)objects_list[i]->object;
