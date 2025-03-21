@@ -17,4 +17,6 @@ Projeto 1 da cadeira de Computação Gráfica - Universidade Federal do Cariri
 | `-`   | Diminuir Escala      |
 | `x`   | Refletir             |
 | `c`   | Cisalhar (Shear)     |
+| `F8`  | Salvar Dados         |
+| `F9`  | Carregar Dados       |
 | `Esc` | Modo de Visualização |

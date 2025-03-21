@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <GL/glut.h>
+#include "database.h"
 #include "objects.h"
 #include "events.h"
 #include "utils.h"
@@ -16,9 +17,9 @@ void draw_objects() {
     for (int i = 0; objects_list[i] != NULL; i++) {
         switch (objects_list[i]->type)
         {
-            case CREATING_POINT: draw(((Point*)objects_list[i]->object)); break;
-            case CREATING_LINE: draw(((Line*)objects_list[i]->object)); break;
-            case CREATING_POLYGON: draw(((Polygon*)objects_list[i]->object)); break;
+            case POINT: draw(((Point*)objects_list[i]->object)); break;
+            case LINE: draw(((Line*)objects_list[i]->object)); break;
+            case POLYGON: draw(((Polygon*)objects_list[i]->object)); break;
             default: break;
         }
     }
@@ -54,6 +55,8 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
 
 void handle_keyboard_event_special(int key, int x, int y) {
     switch (key) {
+        case GLUT_KEY_F8    : save_objects(&objects); break;
+        case GLUT_KEY_F9    : load_objects(&objects); break;
         case GLUT_KEY_F10   : exit(0);
         case GLUT_KEY_F12   : break; // fullscreen
         case GLUT_KEY_LEFT  : break;
@@ -74,5 +77,5 @@ void handle_mouse_event(int button, int state, int x, int y) {
     Object obj = process_event(p, mode);
     if (obj == NULL) return;
 
-    add_object(&objects, obj, mode);
+    add_object(&objects, obj, mode_to_type(mode));
 }

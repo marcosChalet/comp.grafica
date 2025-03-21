@@ -4,6 +4,7 @@
 ### C ###
 # projects
 bin/*
+objects.db
 
 # Prerequisites
 *.d

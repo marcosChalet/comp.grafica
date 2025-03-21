@@ -11,6 +11,7 @@ libsPaint: \
 	$(OBJ)/utils.o \
 	$(OBJ)/events.o \
 	$(OBJ)/objects.o \
+	$(OBJ)/database.o \
 	$(OBJ)/objects_data_structure.o
 
 myPaintApp: clear_app \

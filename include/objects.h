@@ -33,5 +33,6 @@ void disable_state();
 void * create_point(Point *);
 void * create_line(Point *);
 void * create_polygon(Point *);
+void * object_factory(const Object, const Objec_t);
 
 #endif
