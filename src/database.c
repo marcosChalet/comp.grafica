@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <GL/glut.h>
 #include "opengl_functions.h"
 #include "database.h"
 #include "events.h"
