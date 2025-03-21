@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <GL/glut.h>
+#include "opengl_functions.h"
 #include "database.h"
 #include "events.h"
 #include "utils.h"
@@ -96,7 +97,7 @@ void load_objects(Structure * objects) {
     fclose(fp);
 
     draw_objects();
-    glutPostRedisplay();
+    glut_post_redisplay();
 }
 
 void save_objects(Structure * objects) {
