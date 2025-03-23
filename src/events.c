@@ -50,6 +50,11 @@ void * process_event(Object p, Keyboard_Key_t event_key) {
 }
 
 void handle_keyboard_event(unsigned char key, int x, int y) {
+    if (mode == key) {
+        change_to_view_mode();
+        mode = VIEW_MODE;
+        return;
+    }
     mode = key;
 }
 
