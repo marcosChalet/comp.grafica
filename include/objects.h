@@ -31,11 +31,6 @@ typedef struct polygon {
     char * (*to_string)(struct polygon *);
 } Polygon;
 
-typedef struct current_data
-{
-    Object *selected_object;
-} CurrentData;
-
 void disable_state();
 void * create_point(Point *);
 void * create_line(Point *);

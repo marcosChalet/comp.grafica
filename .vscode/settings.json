@@ -5,6 +5,7 @@
         "*.dbclient-js": "javascript",
         "*.embeddedhtml": "html",
         "*.css": "tailwindcss",
-        "objects.h": "c"
+        "objects.h": "c",
+        "global_state.h": "c"
     }
 }

@@ -3,14 +3,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "objects.h"
+#include "global_state.h"
 #include "opengl_functions.h"
 #include "utils.h"
 
 #define POINT_BUFFER_SIZE 16
 #define LINE_BUFFER_SIZE 2 * (POINT_BUFFER_SIZE - 1) + 5
 
-static bool creating_line = false;
-static bool creating_polygon = false;
 static Line * line_aux;
 static Structure * polygon_vertices_aux;
 
@@ -68,6 +67,8 @@ void * object_factory(const Object data, const Objec_t type) {
             new_point->y = ((Point*)data)->y;
             new_point->to_string = point_to_string;
             new_point->draw = draw_point;
+            g_add_object(new_point, POINT_T);
+            
             return new_point;
 
         case LINE_T:
@@ -77,6 +78,8 @@ void * object_factory(const Object data, const Objec_t type) {
             new_line->s_point = ((Line*)data)->s_point;
             new_line->to_string = line_to_string;
             new_line->draw = draw_line;
+            g_add_object(new_line, LINE_T);
+
             return new_line;
 
         case POLYGON_T:
@@ -85,6 +88,8 @@ void * object_factory(const Object data, const Objec_t type) {
             new_polygon->vertices = (Structure*)data;
             new_polygon->to_string = polygon_to_string;
             new_polygon->draw = draw_polygon;
+            g_add_object(new_polygon, POLYGON_T);
+
             return new_polygon;
         
         default:
@@ -94,22 +99,22 @@ void * object_factory(const Object data, const Objec_t type) {
 }
 
 void disable_state() {
-    creating_polygon = false;
-    creating_line = false;
+    g_set_creating_polygon(false);
+    g_set_creating_line(false);
 }
 
 void * create_point(Point * p) {
     if (p == NULL) return NULL;
-    creating_polygon = false;
-    creating_line = false;
+    g_set_creating_polygon(false);
+    g_set_creating_line(false);
     return object_factory(p, POINT_T);
 }
 
 void * create_line(Point * p) {
-    creating_line = !creating_line;
-    creating_polygon = false;
+    g_set_creating_line(!g_get_creating_line());
+    g_set_creating_polygon(false);
 
-    if (creating_line) {
+    if (g_get_creating_line()) {
         line_aux = malloc(sizeof(Line));
         verify_allocation_error(line_aux);
 
@@ -122,13 +127,13 @@ void * create_line(Point * p) {
 }
 
 void * create_polygon(Point * p) {
-    if (creating_polygon == true && p == NULL) {
-        creating_polygon = false;
+    if (g_get_creating_polygon() == true && p == NULL) {
+        g_set_creating_polygon(false);
         return NULL;
     }
 
-    if (creating_polygon == false) {
-        creating_polygon = true;
+    if (g_get_creating_polygon() == false) {
+        g_set_creating_polygon(true);
         polygon_vertices_aux = create_structure();
         add_object(polygon_vertices_aux, p, POINT_T);
         return object_factory(polygon_vertices_aux, POLYGON_T);
@@ -154,22 +159,27 @@ bool check_is_selected_polygon(Point *) {
 
 void * handle_select_object(Point *point) {
     // percorrer todos os objetos
-    printf("Percorrendo nodes %p\n", polygon_vertices_aux);
-    Node_ptr node;
-    for (node = polygon_vertices_aux->head; node != NULL; node->next) {
-        switch(node->type) {
-            case POINT_T:
-                check_is_selected_point(point, node->object);
-            break;
-            case LINE_T:
-                check_is_selected_line(point, node->object);
-            break;
-            case POLYGON_T:
-                check_is_selected_polygon(point);
-            break;
-            default:
+    Node_ptr node = g_get_head();
+    while (true) {
+        if (!node) {
             break;
         }
+        printf("Node: %p\n", node);
+
+        // node = node->next;
+        // switch(node->type) {
+        //     case POINT_T:
+        //         check_is_selected_point(point, node->object);
+        //     break;
+        //     case LINE_T:
+        //         check_is_selected_line(point, node->object);
+        //     break;
+        //     case POLYGON_T:
+        //         check_is_selected_polygon(point);
+        //     break;
+        //     default:
+        //     break;
+        // }
 
     }
 }
