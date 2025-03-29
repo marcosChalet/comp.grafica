@@ -138,9 +138,38 @@ void * create_polygon(Point * p) {
     return NULL;
 }
 
+bool check_is_selected_point(Point *m, Point* p) {
+    printf("POINT (x: %d, y: %d) vs point (x: %d, y: %d)\n", m->x, m->y, p->x, p->y);
+    return false;
+}
 
+bool check_is_selected_line(Point *m, Line *l) {
+    printf("POINT (x: %d, y: %d)\n", m->x, m->y);
+    return false;
+}
+
+bool check_is_selected_polygon(Point *) {
+    return false;
+}
 
 void * handle_select_object(Point *point) {
     // percorrer todos os objetos
-        // checar se o objeto foi selecionado com base em seu tipo
+    printf("Percorrendo nodes %p\n", polygon_vertices_aux);
+    Node_ptr node;
+    for (node = polygon_vertices_aux->head; node != NULL; node->next) {
+        switch(node->type) {
+            case POINT_T:
+                check_is_selected_point(point, node->object);
+            break;
+            case LINE_T:
+                check_is_selected_line(point, node->object);
+            break;
+            case POLYGON_T:
+                check_is_selected_polygon(point);
+            break;
+            default:
+            break;
+        }
+
+    }
 }

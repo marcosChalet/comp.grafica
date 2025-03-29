@@ -4,6 +4,8 @@
 #include <stdarg.h>
 #include "objects_data_structure.h"
 
+#define HALF_TOLERANCY 10
+
 typedef enum {
     POINT_T,
     LINE_T,
@@ -29,12 +31,10 @@ typedef struct polygon {
     char * (*to_string)(struct polygon *);
 } Polygon;
 
-// typedef struct current_data
-// {
-//     Object *selected_object;
-//     Object *selected_icon;
-// };
-
+typedef struct current_data
+{
+    Object *selected_object;
+} CurrentData;
 
 void disable_state();
 void * create_point(Point *);
@@ -42,8 +42,8 @@ void * create_line(Point *);
 void * create_polygon(Point *);
 void * object_factory(const Object, const Objec_t);
 void * handle_select_object(Point *);
-void * handle_select_point(Point *);
-void * handle_select_line(Point *);
-void * handle_select_polygon(Point *);
+bool check_is_selected_point(Point *, Point *);
+bool check_is_selected_line(Point *, Line *);
+bool check_is_selected_polygon(Point *);
 
 #endif
