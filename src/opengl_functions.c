@@ -5,16 +5,16 @@
 
 #define SIZE 2
 
-void draw_point(Point * self) {
+void draw_point(Point_d * self) {
     printf(BLUE "Debug: Desenhando ponto\n\n" RESET);
     glColor3f(0.0, 0.0, 0.0);
     glPointSize(SIZE);
     glBegin(GL_POINTS);
-        glVertex2i(((Point*)self)->x, ((Point*)self)->y);
+        glVertex2i(((Point_d*)self)->x, ((Point_d*)self)->y);
     glEnd();
 }
 
-void draw_line(Line * self) {
+void draw_line(Line_d * self) {
     printf(BLUE "Debug: Desenhando Linha\n\n" RESET);
     glColor3f(0.0, 0.0, 0.0);
     glLineWidth(SIZE);
@@ -24,7 +24,7 @@ void draw_line(Line * self) {
     glEnd();
 }
 
-void draw_polygon(Polygon * self) {
+void draw_polygon(Polygon_d * self) {
     printf(BLUE "Debug: Desenhando Polígono\n\n" RESET);
 
     int num_objects = get_num_objects(self->vertices);
@@ -40,7 +40,7 @@ void draw_polygon(Polygon * self) {
 
     glBegin(GL_POLYGON);
     for (int i = 0; i < num_objects; i++) {
-        Point *p = (Point *)objects_list[i]->object;
+        Point_d *p = (Point_d *)objects_list[i]->object;
         glVertex2i(p->x, p->y);
     }
     glEnd();
@@ -48,7 +48,7 @@ void draw_polygon(Polygon * self) {
     glColor3f(0.4, 0.4, 0.4);
     glBegin(GL_LINE_LOOP);
     for (int i = 0; i < num_objects; i++) {
-        Point *p = (Point *)objects_list[i]->object;
+        Point_d *p = (Point_d *)objects_list[i]->object;
         glVertex2i(p->x, p->y);
     }
     glEnd();

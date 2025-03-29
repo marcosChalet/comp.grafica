@@ -3,9 +3,9 @@
 
 #include "objects.h"
 
-void draw_point(Point *);
-void draw_line(Line *);
-void draw_polygon(Polygon *);
+void draw_point(Point_d *);
+void draw_line(Line_d *);
+void draw_polygon(Polygon_d *);
 void glut_post_redisplay();
 
 #endif

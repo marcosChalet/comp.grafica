@@ -5,6 +5,14 @@ INCLUDE = ./include
 APP = ./app
 FLAG = -O3
 
+OS := $(shell uname -s)
+
+ifeq ($(OS), Linux)
+    LIBS = -lm -lGL -lglut -lGLU
+else
+    LIBS = -lm -lopengl32 -lglu32 -lfreeglut
+endif
+
 all: libsPaint myPaintApp
 
 libsPaint: \
@@ -23,7 +31,7 @@ $(OBJ)/%.o: $(SRC)/%.c $(INCLUDE)/%.h
 	gcc $(FLAG) -c $< -I $(INCLUDE) -o $@
 
 $(BIN)/%: $(APP)/%.c
-	gcc $(FLAG) $< $(OBJ)/*.o -I $(INCLUDE) -lm -lGL -lglut -lGLU -Wall -o $@
+	gcc $(FLAG) $< $(OBJ)/*.o -I $(INCLUDE) -lm ${LIBS} -Wall -o $@
 
 run:
 	$(BIN)/paint

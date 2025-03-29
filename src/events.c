@@ -18,9 +18,9 @@ void draw_objects() {
     for (int i = 0; objects_list[i] != NULL; i++) {
         switch (objects_list[i]->type)
         {
-            case POINT: draw(((Point*)objects_list[i]->object)); break;
-            case LINE: draw(((Line*)objects_list[i]->object)); break;
-            case POLYGON: draw(((Polygon*)objects_list[i]->object)); break;
+            case POINT_T: draw(((Point_d*)objects_list[i]->object)); break;
+            case LINE_T: draw(((Line_d*)objects_list[i]->object)); break;
+            case POLYGON_T: draw(((Polygon_d*)objects_list[i]->object)); break;
             default: break;
         }
     }
@@ -54,7 +54,7 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
     switch (mode) {
         case VIEW_MODE        : change_to_view_mode(); break;
         case DELETE_OBJECT    : break;
-        case ROTATE           : rotate(get_first(&objects)->object, POLYGON); break;
+        case ROTATE           : rotate(get_first(&objects)->object, POLYGON_T); break;
         case SELECT           : break;
         case TRANSLATE        : break;
         case SCALE_UP         : break;
@@ -81,7 +81,7 @@ void handle_keyboard_event_special(int key, int x, int y) {
 void handle_mouse_event(int button, int state, int x, int y) {
     if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN) return;
 
-    Point * p = malloc(sizeof(Point));
+    Point_d * p = malloc(sizeof(Point_d));
     verify_allocation_error(p);
     
     p->x = x;

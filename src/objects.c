@@ -11,16 +11,16 @@
 
 static bool creating_line = false;
 static bool creating_polygon = false;
-static Line * line_aux;
+static Line_d * line_aux;
 static Structure * polygon_vertices_aux;
 
-char * point_to_string(Point * p) {
+char * point_to_string(Point_d * p) {
     static char buffer[POINT_BUFFER_SIZE];
     snprintf(buffer, sizeof(buffer), "{%d, %d}", p->x, p->y);
     return buffer;
 }
 
-char * line_to_string(Line * l) {
+char * line_to_string(Line_d * l) {
     static char buffer[LINE_BUFFER_SIZE];
     char point1[POINT_BUFFER_SIZE];
     char point2[POINT_BUFFER_SIZE];
@@ -32,7 +32,7 @@ char * line_to_string(Line * l) {
     return buffer;
 }
 
-char * polygon_to_string(Polygon * plg) {
+char * polygon_to_string(Polygon_d * plg) {
     if (plg == NULL) return NULL;
     if (plg->vertices == NULL) return NULL;
     if (get_first(plg->vertices) == NULL) return NULL;
@@ -48,7 +48,7 @@ char * polygon_to_string(Polygon * plg) {
 
     Node_ptr * all_polgons = get_all(plg->vertices);
     for (int i = 0; all_polgons[i] != NULL; i++) {
-        const char *point_str = to_string((Point*)all_polgons[i]->object);
+        const char *point_str = to_string((Point_d*)all_polgons[i]->object);
         offset += snprintf(buffer + offset, total_size - offset, "%s", point_str);
         if (all_polgons[i+1] != NULL) {
             offset += snprintf(buffer + offset, total_size - offset, ", ");
@@ -61,35 +61,36 @@ char * polygon_to_string(Polygon * plg) {
 
 void * object_factory(const Object data, const Objec_t type) {
     switch (type) {
-        case POINT:
-            Point * new_point = malloc(sizeof(Point));
+        case POINT_T: {
+            Point_d * new_point = malloc(sizeof(Point_d));
             verify_allocation_error(new_point);
-            new_point->x = ((Point*)data)->x;
-            new_point->y = ((Point*)data)->y;
+            new_point->x = ((Point_d*)data)->x;
+            new_point->y = ((Point_d*)data)->y;
             new_point->to_string = point_to_string;
             new_point->draw = draw_point;
             return new_point;
-
-        case LINE:
-            Line * new_line = malloc(sizeof(Line));
+        }
+        case LINE_T: {
+            Line_d * new_line = malloc(sizeof(Line_d));
             verify_allocation_error(new_line);
-            new_line->e_point = ((Line*)data)->e_point;
-            new_line->s_point = ((Line*)data)->s_point;
+            new_line->e_point = ((Line_d*)data)->e_point;
+            new_line->s_point = ((Line_d*)data)->s_point;
             new_line->to_string = line_to_string;
             new_line->draw = draw_line;
             return new_line;
-
-        case POLYGON:
-            Polygon * new_polygon = malloc(sizeof(Polygon));
+        }
+        case POLYGON_T: {
+            Polygon_d * new_polygon = malloc(sizeof(Polygon_d));
             verify_allocation_error(new_polygon);
             new_polygon->vertices = (Structure*)data;
             new_polygon->to_string = polygon_to_string;
             new_polygon->draw = draw_polygon;
             return new_polygon;
-        
-        default:
+        }
+        default: {
             perror(RED "Error: Non-existent type" RESET);
             return 0;
+        }
     }
 }
 
@@ -98,19 +99,19 @@ void disable_state() {
     creating_line = false;
 }
 
-void * create_point(Point * p) {
+void * create_point(Point_d * p) {
     if (p == NULL) return NULL;
     creating_polygon = false;
     creating_line = false;
-    return object_factory(p, POINT);
+    return object_factory(p, POINT_T);
 }
 
-void * create_line(Point * p) {
+void * create_line(Point_d * p) {
     creating_line = !creating_line;
     creating_polygon = false;
 
     if (creating_line) {
-        line_aux = malloc(sizeof(Line));
+        line_aux = malloc(sizeof(Line_d));
         verify_allocation_error(line_aux);
 
         line_aux->e_point = p;
@@ -118,10 +119,10 @@ void * create_line(Point * p) {
     }
 
     line_aux->s_point = p;
-    return object_factory(line_aux, LINE);
+    return object_factory(line_aux, LINE_T);
 }
 
-void * create_polygon(Point * p) {
+void * create_polygon(Point_d * p) {
     if (creating_polygon == true && p == NULL) {
         creating_polygon = false;
         return NULL;
@@ -130,10 +131,10 @@ void * create_polygon(Point * p) {
     if (creating_polygon == false) {
         creating_polygon = true;
         polygon_vertices_aux = create_structure();
-        add_object(polygon_vertices_aux, p, POINT);
-        return object_factory(polygon_vertices_aux, POLYGON);
+        add_object(polygon_vertices_aux, p, POINT_T);
+        return object_factory(polygon_vertices_aux, POLYGON_T);
     }
 
-    add_object(polygon_vertices_aux, p, POINT);
+    add_object(polygon_vertices_aux, p, POINT_T);
     return NULL;
 }

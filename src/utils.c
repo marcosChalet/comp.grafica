@@ -9,9 +9,9 @@ void verify_allocation_error(const void * ptr) {
 
 int mode_to_type(int mode) {
     switch (mode) {
-        case CREATING_POINT   : return POINT;
-        case CREATING_LINE    : return LINE;
-        case CREATING_POLYGON : return POLYGON;
+        case CREATING_POINT   : return POINT_T;
+        case CREATING_LINE    : return LINE_T;
+        case CREATING_POLYGON : return POLYGON_T;
     }
 }
 
