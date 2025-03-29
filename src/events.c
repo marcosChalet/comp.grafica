@@ -17,9 +17,9 @@ void draw_objects() {
     for (int i = 0; objects_list[i] != NULL; i++) {
         switch (objects_list[i]->type)
         {
-            case POINT: draw(((Point*)objects_list[i]->object)); break;
-            case LINE: draw(((Line*)objects_list[i]->object)); break;
-            case POLYGON: draw(((Polygon*)objects_list[i]->object)); break;
+            case POINT_T: draw(((Point*)objects_list[i]->object)); break;
+            case LINE_T: draw(((Line*)objects_list[i]->object)); break;
+            case POLYGON_T: draw(((Polygon*)objects_list[i]->object)); break;
             default: break;
         }
     }
@@ -39,7 +39,7 @@ void * process_event(Object p, Keyboard_Key_t event_key) {
         case VIEW_MODE        : return change_to_view_mode();
         case DELETE_OBJECT    : return NULL;
         case ROTATE           : return NULL;
-        case SELECT           : return NULL;
+        case SELECT           : return handle_select_object(p);
         case TRANSLATE        : return NULL;
         case SCALE_UP         : return NULL;
         case SCALE_DOWN       : return NULL;

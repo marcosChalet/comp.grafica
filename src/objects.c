@@ -61,7 +61,7 @@ char * polygon_to_string(Polygon * plg) {
 
 void * object_factory(const Object data, const Objec_t type) {
     switch (type) {
-        case POINT:
+        case POINT_T:
             Point * new_point = malloc(sizeof(Point));
             verify_allocation_error(new_point);
             new_point->x = ((Point*)data)->x;
@@ -70,7 +70,7 @@ void * object_factory(const Object data, const Objec_t type) {
             new_point->draw = draw_point;
             return new_point;
 
-        case LINE:
+        case LINE_T:
             Line * new_line = malloc(sizeof(Line));
             verify_allocation_error(new_line);
             new_line->e_point = ((Line*)data)->e_point;
@@ -79,7 +79,7 @@ void * object_factory(const Object data, const Objec_t type) {
             new_line->draw = draw_line;
             return new_line;
 
-        case POLYGON:
+        case POLYGON_T:
             Polygon * new_polygon = malloc(sizeof(Polygon));
             verify_allocation_error(new_polygon);
             new_polygon->vertices = (Structure*)data;
@@ -102,7 +102,7 @@ void * create_point(Point * p) {
     if (p == NULL) return NULL;
     creating_polygon = false;
     creating_line = false;
-    return object_factory(p, POINT);
+    return object_factory(p, POINT_T);
 }
 
 void * create_line(Point * p) {
@@ -118,7 +118,7 @@ void * create_line(Point * p) {
     }
 
     line_aux->s_point = p;
-    return object_factory(line_aux, LINE);
+    return object_factory(line_aux, LINE_T);
 }
 
 void * create_polygon(Point * p) {
@@ -130,10 +130,17 @@ void * create_polygon(Point * p) {
     if (creating_polygon == false) {
         creating_polygon = true;
         polygon_vertices_aux = create_structure();
-        add_object(polygon_vertices_aux, p, POINT);
-        return object_factory(polygon_vertices_aux, POLYGON);
+        add_object(polygon_vertices_aux, p, POINT_T);
+        return object_factory(polygon_vertices_aux, POLYGON_T);
     }
 
-    add_object(polygon_vertices_aux, p, POINT);
+    add_object(polygon_vertices_aux, p, POINT_T);
     return NULL;
+}
+
+
+
+void * handle_select_object(Point *point) {
+    // percorrer todos os objetos
+        // checar se o objeto foi selecionado com base em seu tipo
 }

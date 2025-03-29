@@ -5,9 +5,9 @@
 #include "objects_data_structure.h"
 
 typedef enum {
-    POINT,
-    LINE,
-    POLYGON,
+    POINT_T,
+    LINE_T,
+    POLYGON_T,
 } Objec_t;
 
 typedef struct point {
@@ -29,10 +29,21 @@ typedef struct polygon {
     char * (*to_string)(struct polygon *);
 } Polygon;
 
+// typedef struct current_data
+// {
+//     Object *selected_object;
+//     Object *selected_icon;
+// };
+
+
 void disable_state();
 void * create_point(Point *);
 void * create_line(Point *);
 void * create_polygon(Point *);
 void * object_factory(const Object, const Objec_t);
+void * handle_select_object(Point *);
+void * handle_select_point(Point *);
+void * handle_select_line(Point *);
+void * handle_select_polygon(Point *);
 
 #endif
