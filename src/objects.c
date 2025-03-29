@@ -143,8 +143,16 @@ void * create_polygon(Point * p) {
     return NULL;
 }
 
-bool check_is_selected_point(Point *m, Point* p) {
-    printf("POINT (x: %d, y: %d) vs point (x: %d, y: %d)\n", m->x, m->y, p->x, p->y);
+bool check_is_selected_point(Point *m, Node_ptr node) {
+    Point *p = node->object;
+    if (
+        m->x <= p->x + HALF_TOLERANCY &&
+        m->x >= p->x - HALF_TOLERANCY &&
+        m->y <= p->y + HALF_TOLERANCY &&
+        m->y >= p->y - HALF_TOLERANCY
+    )
+        set_selected_node(node);
+
     return false;
 }
 
@@ -154,7 +162,7 @@ bool check_is_selected_line(Point *m, Line *l) {
 }
 
 bool check_is_selected_polygon(Point *) {
-    return false;
+    return false;   
 }
 
 void * handle_select_object(Point *point) {
@@ -162,24 +170,24 @@ void * handle_select_object(Point *point) {
     Node_ptr node = g_get_head();
     while (true) {
         if (!node) {
+            printf("Node Nil: %p\n", node);
             break;
         }
+        
         printf("Node: %p\n", node);
-
-        // node = node->next;
-        // switch(node->type) {
-        //     case POINT_T:
-        //         check_is_selected_point(point, node->object);
-        //     break;
-        //     case LINE_T:
-        //         check_is_selected_line(point, node->object);
-        //     break;
-        //     case POLYGON_T:
-        //         check_is_selected_polygon(point);
-        //     break;
-        //     default:
-        //     break;
-        // }
-
+        switch(node->type) {
+            case POINT_T:
+                return check_is_selected_point(point, node->object);
+            case LINE_T:
+                return check_is_selected_line(point, node->object);
+            case POLYGON_T:
+                return check_is_selected_polygon(point);
+            default:
+                break;
+        }
+        
+        node = node->next;
     }
+
+    set_selected_node(NULL);
 }

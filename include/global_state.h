@@ -12,7 +12,7 @@ typedef struct global_state
 } GlobalState;
 
 void init_global_state();
-void add_selected_node(Node *);
+void set_selected_node(Node *);
 void g_add_object(Object, Objec_t);
 Node_ptr g_get_head();
 void g_set_creating_line(bool);

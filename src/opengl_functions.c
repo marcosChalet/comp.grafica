@@ -6,7 +6,7 @@
 #define SIZE 2
 
 void draw_point(Point * self) {
-    printf(BLUE "Debug: Desenhando ponto\n\n" RESET);
+    printf(BLUE "Debug: Desenhando ponto\n" RESET);
     glColor3f(0.0, 0.0, 0.0);
     glPointSize(SIZE);
     glBegin(GL_POINTS);
@@ -15,7 +15,7 @@ void draw_point(Point * self) {
 }
 
 void draw_line(Line * self) {
-    printf(BLUE "Debug: Desenhando Linha\n\n" RESET);
+    printf(BLUE "Debug: Desenhando Linha\n" RESET);
     glColor3f(0.0, 0.0, 0.0);
     glLineWidth(SIZE);
     glBegin(GL_LINES);
@@ -25,13 +25,13 @@ void draw_line(Line * self) {
 }
 
 void draw_polygon(Polygon * self) {
-    printf(BLUE "Debug: Desenhando Polígono\n\n" RESET);
+    printf(BLUE "Debug: Desenhando Polígono\n" RESET);
 
     int num_objects = get_num_objects(self->vertices);
     Node_ptr *objects_list = get_all(self->vertices);
 
     if (num_objects < 3) {
-        printf(BLUE "\nDebug: Adicione mais %d vértices.\n\n" RESET, 3 - num_objects);
+        printf(BLUE "\nDebug: Adicione mais %d vértices.\n" RESET, 3 - num_objects);
         return;
     }
 
