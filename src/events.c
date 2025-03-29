@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <GL/glut.h>
+#include "transformations.h"
 #include "database.h"
 #include "objects.h"
 #include "events.h"
@@ -35,16 +36,8 @@ void * process_event(Object p, Keyboard_Key_t event_key) {
     switch (event_key) {
         case CREATING_POINT   : return create_point(p);
         case CREATING_LINE    : return create_line(p);
-        case CREATING_POLYGON : return create_polygon(p);
-        case VIEW_MODE        : return change_to_view_mode();
-        case DELETE_OBJECT    : return NULL;
-        case ROTATE           : return NULL;
+        case CREATING_POLYGON : return create_polygon(p);;
         case SELECT           : return NULL;
-        case TRANSLATE        : return NULL;
-        case SCALE_UP         : return NULL;
-        case SCALE_DOWN       : return NULL;
-        case REFLECT          : return NULL;
-        case SHEAR            : return NULL;
         default               : return NULL;
     }
 }
@@ -55,7 +48,21 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
         mode = VIEW_MODE;
         return;
     }
+    
     mode = key;
+
+    switch (mode) {
+        case VIEW_MODE        : change_to_view_mode(); break;
+        case DELETE_OBJECT    : break;
+        case ROTATE           : rotate(get_first(&objects)->object, POLYGON); break;
+        case SELECT           : break;
+        case TRANSLATE        : break;
+        case SCALE_UP         : break;
+        case SCALE_DOWN       : break;
+        case REFLECT          : break;
+        case SHEAR            : break;
+        default               : break;
+    }
 }
 
 void handle_keyboard_event_special(int key, int x, int y) {
