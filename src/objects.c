@@ -222,8 +222,41 @@ bool check_is_selected_line(Point *m, Node *node) {
 }
 
 bool check_is_selected_polygon(Point *m, Node *node) {
-    return false;   
+    Polygon *polygon = (Polygon *)node->object;
+    if (polygon == NULL || polygon->vertices == NULL) return false;
+
+    int count = 0;
+    size_t num_vertices = get_num_objects(polygon->vertices);
+    if (num_vertices < 3) return false; // Não é um polígono válido
+
+    Node_ptr *vertices = get_all(polygon->vertices);
+
+    for (int i = 0; i < num_vertices; i++) {
+        Point *p1 = (Point *)vertices[i]->object;
+        Point *p2 = (Point *)vertices[(i + 1) % num_vertices]->object;
+
+        // Verifica se o ponto m está dentro da tolerância de um dos vértices
+        if (
+            m->x <= p1->x + HALF_TOLERANCY &&
+            m->x >= p1->x - HALF_TOLERANCY &&
+            m->y <= p1->y + HALF_TOLERANCY &&
+            m->y >= p1->y - HALF_TOLERANCY
+        ) {
+            return true;
+        }
+
+        // Ray casting: conta interseções com arestas
+        if ((p1->y > m->y) != (p2->y > m->y)) {
+            float x_intersect = (float)(p2->x - p1->x) * (m->y - p1->y) / (float)(p2->y - p1->y) + p1->x;
+            if (m->x < x_intersect) {
+                count++;
+            }
+        }
+    }
+
+    return (count % 2 == 1);
 }
+
 
 void *handle_select_object(Point *point) {
     // percorrer todos os objetos
