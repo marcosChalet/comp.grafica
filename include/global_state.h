@@ -14,6 +14,7 @@ typedef struct global_state
 void init_global_state();
 Structure * g_get_structure();
 void set_selected_node(Node *);
+Node * get_selected_node();
 void g_add_object(Object, Objec_t);
 Node_ptr g_get_head();
 void g_set_creating_line(bool);

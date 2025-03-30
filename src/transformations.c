@@ -1,5 +1,7 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "utils.h"
 #include "transformations.h"
 #include "opengl_functions.h"
 
@@ -44,14 +46,20 @@ void rotate_polygon(Polygon_d * p) {
     }
 }
 
-void * rotate(Object o, Objec_t type) {
+void * rotate(Object o) {
+
+    if (o == NULL || ((Node_ptr)o)->object) {
+        perror(RED "ERROR: O objeto não foi selecionado\n" RESET);
+        return NULL;
+    }
+
     glut_post_redisplay();
-    switch (type) {
+    switch (((Node_ptr)o)->type) {
         case LINE_T:
-            rotate_line(o);
+            rotate_line(((Node_ptr)o)->object);
             break;
         case POLYGON_T:
-            rotate_polygon(o);
+            rotate_polygon(((Node_ptr)o)->object);
             break;
         default:
             break;
