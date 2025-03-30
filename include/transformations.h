@@ -3,6 +3,6 @@
 
 #include "objects.h"
 
-void * rotate(Object, Objec_t);
+void * rotate(Object);
 
 #endif

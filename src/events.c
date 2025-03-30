@@ -54,7 +54,7 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
     switch (mode) {
         case VIEW_MODE        : change_to_view_mode(); break;
         case DELETE_OBJECT    : break;
-        case ROTATE           : rotate(get_first(g_get_structure())->object, POLYGON_T); break;
+        case ROTATE           : rotate(get_selected_node()); break;
         case SELECT           : break;
         case TRANSLATE        : break;
         case SCALE_UP         : break;
