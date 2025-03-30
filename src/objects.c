@@ -188,7 +188,7 @@ bool check_is_selected_line(Point_d *m, Node *node) {
             break; // ambos os pontos estão fora da janela
         } else {
             // pelo menos um dos pontos fora da reta
-            __int8_t outcode_out = start_point_region_code != 0 ?
+            int outcode_out = start_point_region_code != 0 ?
                                     start_point_region_code :
                                     end_point_region_code;
             
