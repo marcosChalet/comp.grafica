@@ -20,6 +20,7 @@ libsPaint: \
 	$(OBJ)/events.o \
 	$(OBJ)/objects.o \
 	$(OBJ)/database.o \
+	$(OBJ)/global_state.o \
 	$(OBJ)/transformations.o \
 	$(OBJ)/opengl_functions.o \
 	$(OBJ)/objects_data_structure.o

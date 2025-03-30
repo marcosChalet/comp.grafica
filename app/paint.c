@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include "events.h"
+#include "global_state.h"
 #ifdef _WIN32
     #include <windows.h>
 #endif
@@ -22,6 +23,7 @@ void display(void) {
 }
 
 void init(void) {
+    init_global_state();
     glClearColor(1.0, 1.0, 1.0, 0.0);
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0.0, windowWidth, 0.0, windowHeight);

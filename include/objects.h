@@ -4,6 +4,8 @@
 #include <stdarg.h>
 #include "objects_data_structure.h"
 
+#define HALF_TOLERANCY 10
+
 typedef enum {
     POINT_T,
     LINE_T,
@@ -34,5 +36,9 @@ void * create_point(Point_d *);
 void * create_line(Point_d *);
 void * create_polygon(Point_d *);
 void * object_factory(const Object, const Objec_t);
+void * handle_select_object(Point_d *);
+bool check_is_selected_point(Point_d *, Node *);
+bool check_is_selected_line(Point_d *, Node *);
+bool check_is_selected_polygon(Point_d *, Node *);
 
 #endif
