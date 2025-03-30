@@ -37,8 +37,8 @@ void * create_line(Point *);
 void * create_polygon(Point *);
 void * object_factory(const Object, const Objec_t);
 void * handle_select_object(Point *);
-bool check_is_selected_point(Point *, Point *);
-bool check_is_selected_line(Point *, Line *);
-bool check_is_selected_polygon(Point *);
+bool check_is_selected_point(Point *, Node *);
+bool check_is_selected_line(Point *, Node *);
+bool check_is_selected_polygon(Point *, Node *);
 
 #endif

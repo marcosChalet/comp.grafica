@@ -6,6 +6,7 @@
         "*.embeddedhtml": "html",
         "*.css": "tailwindcss",
         "objects.h": "c",
-        "global_state.h": "c"
+        "global_state.h": "c",
+        "opengl_functions.h": "c"
     }
 }

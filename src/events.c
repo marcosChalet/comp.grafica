@@ -23,6 +23,8 @@ void draw_objects() {
             default: break;
         }
     }
+
+    printf("Teste\n");
 }
 
 void * change_to_view_mode() {

@@ -11,7 +11,7 @@ void init_global_state() {
     global_state->creating_line = global_state->creating_polygon = false;
 }
 
-void add_selected_node(Node *node) {
+void set_selected_node(Node *node) {
     global_state->selected_node = node;
 }
 

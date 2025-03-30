@@ -145,29 +145,91 @@ void * create_polygon(Point * p) {
 
 bool check_is_selected_point(Point *m, Node_ptr node) {
     Point *p = node->object;
+
     if (
         m->x <= p->x + HALF_TOLERANCY &&
         m->x >= p->x - HALF_TOLERANCY &&
         m->y <= p->y + HALF_TOLERANCY &&
         m->y >= p->y - HALF_TOLERANCY
-    )
-        set_selected_node(node);
+    ) {
+        return true;
+    }
 
     return false;
 }
 
-bool check_is_selected_line(Point *m, Line *l) {
-    printf("POINT (x: %d, y: %d)\n", m->x, m->y);
+bool check_is_selected_line(Point *m, Node *node) {
+    Line *l = node->object;
+    int x_min = m->x - HALF_TOLERANCY,
+        x_max = m->x + HALF_TOLERANCY,
+        y_min = m->y - HALF_TOLERANCY,
+        y_max = m->y + HALF_TOLERANCY,
+        x1 = l->s_point->x,
+        y1 = l->s_point->y,
+        x2 = l->e_point->x,
+        y2 = l->e_point->y,
+        x, y;
+
+    RegionCode
+        start_point_region_code = compute_out_code(
+            x1, y1, x_max, x_min, y_max, y_min),
+        end_point_region_code = compute_out_code(
+            x2, y2, x_max, x_min, y_max, y_min);
+    
+    while (true)
+    {
+        if (start_point_region_code == 0 && end_point_region_code == 0) {
+            printf("Linha selecionada\n");
+            return true; // todos os pontos estão dentro da janela
+        }
+        else if (start_point_region_code & end_point_region_code != 0) {
+            break; // ambos os pontos estão fora da janela
+        } else {
+            // pelo menos um dos pontos fora da reta
+            __int8_t outcode_out = start_point_region_code != 0 ?
+                                    start_point_region_code :
+                                    end_point_region_code;
+            
+            if (outcode_out & TOP) {
+                x = x1 + (x2 - x1) * (y_max - y1) / (y2 - y1);
+                y = y_max;
+            } else if (outcode_out & BOTTOM) {
+                x = x1 + (x2 - x1) * (y_min - y1) / (y2 - y1);
+                y = y_min;
+            } else if (outcode_out & LEFT) {
+                y = y1 + (y2 - y1) * (x_max - x1) / (x2 - x1);
+                x = x_max;
+            } else if (outcode_out & RIGHT) {
+                y = y1 + (y2 - y1) * (x_min - x1) / (x2 - x1);
+                x = x_min;
+            }
+
+            if (outcode_out == start_point_region_code) {
+                x1 = x;
+                y1 = y;
+                start_point_region_code = compute_out_code(
+                    x1, y1, x_max, x_min, y_max, y_min);
+            } else {
+                x2 = x;
+                y2 = y;
+                end_point_region_code = compute_out_code(
+                    x2, y2, x_max, x_min, y_max, y_min);
+            }
+        }
+    }
+    
     return false;
 }
 
-bool check_is_selected_polygon(Point *) {
+bool check_is_selected_polygon(Point *m, Node *node) {
     return false;   
 }
 
-void * handle_select_object(Point *point) {
+void *handle_select_object(Point *point) {
     // percorrer todos os objetos
     Node_ptr node = g_get_head();
+    bool selected = false;
+
     while (true) {
         if (!node) {
             printf("Node Nil: %p\n", node);
@@ -175,16 +237,28 @@ void * handle_select_object(Point *point) {
         }
         
         printf("Node: %p\n", node);
-        switch(node->type) {
-            case POINT_T:
-                return check_is_selected_point(point, node->object);
-            case LINE_T:
-                return check_is_selected_line(point, node->object);
-            case POLYGON_T:
-                return check_is_selected_polygon(point);
-            default:
-                break;
-        }
+
+        // switch(node->type) {
+        //     case POINT_T:
+        //         selected = check_is_selected_point(point, node);
+        //         break;
+        //     case LINE_T:
+        //         selected = check_is_selected_line(point, node);
+        //         break;
+        //     case POLYGON_T:
+        //         selected = check_is_selected_polygon(point, node);
+        //         break;
+        //     default:
+        //         break;
+        // }
+
+        printf("Oi\n");
+        
+        // if (selected) {
+        //     printf("selecting node\n");
+        //     set_selected_node(node);
+        //     return;
+        // }
         
         node = node->next;
     }
