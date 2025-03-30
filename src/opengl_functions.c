@@ -8,7 +8,7 @@
 void draw_point(Point_d * self) {
     printf(BLUE "DEBUG: Desenhando ponto\n" RESET);
     glColor3f(0.0, 0.0, 0.0);
-    glPointSize(SIZE);
+    glPointSize(SIZE*2);
     glBegin(GL_POINTS);
         glVertex2i(((Point_d*)self)->x, ((Point_d*)self)->y);
     glEnd();
