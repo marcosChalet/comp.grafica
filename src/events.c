@@ -38,6 +38,7 @@ void * process_event(Object p, Keyboard_Key_t event_key) {
         case CREATING_LINE    : return create_line(p);
         case CREATING_POLYGON : return create_polygon(p);
         case SELECT           : return handle_select_object(p);
+        case TRANSLATE        : return translate(get_selected_node(), p);
         default               : return NULL;
     }
 }
@@ -51,12 +52,15 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
     
     mode = key;
 
+    char * str_mode = enum_to_string(mode);
+    if (str_mode != NULL) printf(GREEN "LOG: Entrando no modo %s\n" RESET, str_mode);
+    else printf(RED "ERROR: Opção inválida\n" RESET);
+    free(str_mode);
+
     switch (mode) {
         case VIEW_MODE        : change_to_view_mode(); break;
         case DELETE_OBJECT    : break;
-        case ROTATE           : rotate(get_first(g_get_structure())->object, POLYGON_T); break;
-        case SELECT           : break;
-        case TRANSLATE        : break;
+        case ROTATE           : rotate(get_selected_node()); break;
         case SCALE_UP         : break;
         case SCALE_DOWN       : break;
         case REFLECT          : break;

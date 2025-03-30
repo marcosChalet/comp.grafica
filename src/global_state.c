@@ -15,6 +15,12 @@ void set_selected_node(Node *node) {
     global_state->selected_node = node;
 }
 
+Node * get_selected_node() {
+    if (!global_state) return NULL;
+    if (!global_state->selected_node) return NULL;
+    return global_state->selected_node;
+}
+
 void g_add_object(Object object, Objec_t type) {
     add_object(global_state->all_nodes, object, type);
 }

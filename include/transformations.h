@@ -3,7 +3,8 @@
 
 #include "objects.h"
 
-void * rotate(Object, Objec_t);
-void *reflect(Object, Objec_t, bool);
+void * rotate(Object);
+void * translate(Object, Point_d *);
+void * reflect(Object, Objec_t, bool);
 
 #endif
