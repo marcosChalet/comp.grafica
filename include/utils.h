@@ -28,4 +28,6 @@ RegionCode compute_out_code(int x, int y, int x_max, int x_min, int y_max, int y
 
 int mode_to_type(int);
 
+char * enum_to_string(int);
+
 #endif

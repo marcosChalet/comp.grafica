@@ -51,6 +51,11 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
     
     mode = key;
 
+    char * str_mode = enum_to_string(mode);
+    if (str_mode != NULL) printf(GREEN "LOG: Entrando no modo %s\n" RESET, str_mode);
+    else printf(RED "ERROR: Opção inválida\n" RESET);
+    free(str_mode);
+
     switch (mode) {
         case VIEW_MODE        : change_to_view_mode(); break;
         case DELETE_OBJECT    : break;
