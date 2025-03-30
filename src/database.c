@@ -93,7 +93,7 @@ void load_objects(Structure * objects) {
         }
     }
 
-    printf(GREEN "SUCCESS: Objetos carregados com sucesso\n\n" RESET);
+    printf(GREEN "SUCCESS: Objetos carregados com sucesso\n" RESET);
     fclose(fp);
 
     draw_objects();
@@ -115,6 +115,6 @@ void save_objects(Structure * objects) {
         }
     }
 
-    printf(GREEN "SUCCESS: Objetos salvos com sucesso\n\n" RESET);
+    printf(GREEN "SUCCESS: Objetos salvos com sucesso\n" RESET);
     fclose(fp);
 }

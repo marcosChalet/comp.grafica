@@ -13,8 +13,19 @@
 #define to_string(obj) ((obj)->to_string(obj))
 #define draw(obj) ((obj)->draw(obj))
 
+typedef enum {
+    INSIDE = 0b0000,
+    LEFT = 0b0001,
+    RIGHT = 0b0010,
+    BOTTOM = 0b0100,
+    TOP = 0b1000
+} RegionCode;
+
 void verify_allocation_error(const void *);
 bool file_error(FILE *);
+
+RegionCode compute_out_code(int x, int y, int x_max, int x_min, int y_max, int y_min);
+
 int mode_to_type(int);
 
 #endif
