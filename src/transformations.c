@@ -48,7 +48,7 @@ void rotate_polygon(Polygon_d * p) {
 
 void * rotate(Object o) {
 
-    if (o == NULL || ((Node_ptr)o)->object) {
+    if (o == NULL || ((Node_ptr)o)->object == NULL) {
         perror(RED "ERROR: O objeto não foi selecionado\n" RESET);
         return NULL;
     }
