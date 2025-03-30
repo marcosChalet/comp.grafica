@@ -12,6 +12,7 @@ typedef struct global_state
 } GlobalState;
 
 void init_global_state();
+Structure * g_get_structure();
 void set_selected_node(Node *);
 void g_add_object(Object, Objec_t);
 Node_ptr g_get_head();

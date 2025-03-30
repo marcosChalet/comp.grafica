@@ -19,6 +19,10 @@ void g_add_object(Object object, Objec_t type) {
     add_object(global_state->all_nodes, object, type);
 }
 
+Structure * g_get_structure() {
+    return global_state->all_nodes;
+}
+
 Node_ptr g_get_head() {
     return global_state->all_nodes->head;
 }

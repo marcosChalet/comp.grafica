@@ -238,30 +238,29 @@ void *handle_select_object(Point *point) {
         
         printf("Node: %p\n", node);
 
-        // switch(node->type) {
-        //     case POINT_T:
-        //         selected = check_is_selected_point(point, node);
-        //         break;
-        //     case LINE_T:
-        //         selected = check_is_selected_line(point, node);
-        //         break;
-        //     case POLYGON_T:
-        //         selected = check_is_selected_polygon(point, node);
-        //         break;
-        //     default:
-        //         break;
-        // }
+        switch(node->type) {
+            case POINT_T:
+                selected = check_is_selected_point(point, node);
+                break;
+            case LINE_T:
+                selected = check_is_selected_line(point, node);
+                break;
+            case POLYGON_T:
+                selected = check_is_selected_polygon(point, node);
+                break;
+            default:
+                break;
+        }
 
-        printf("Oi\n");
-        
-        // if (selected) {
-        //     printf("selecting node\n");
-        //     set_selected_node(node);
-        //     return;
-        // }
+        if (selected) {
+            printf("selecting node\n");
+            set_selected_node(node);
+            return NULL;
+        }
         
         node = node->next;
     }
 
     set_selected_node(NULL);
+    return NULL;
 }
