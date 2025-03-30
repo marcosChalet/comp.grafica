@@ -71,10 +71,10 @@ void handle_keyboard_event_special(int key, int x, int y) {
         case GLUT_KEY_F9    : load_objects(g_get_structure()); break;
         case GLUT_KEY_F10   : exit(0);
         case GLUT_KEY_F12   : break; // fullscreen
-        case GLUT_KEY_LEFT  : break;
-        case GLUT_KEY_RIGHT : break;
-        case GLUT_KEY_UP    : break;
-        case GLUT_KEY_DOWN  : break;
+        case GLUT_KEY_LEFT  : reflect(get_first(g_get_structure())->object, POLYGON_T, false); break;
+        case GLUT_KEY_RIGHT : reflect(get_first(g_get_structure())->object, POLYGON_T, false); break;
+        case GLUT_KEY_UP    : reflect(get_first(g_get_structure())->object, POLYGON_T, true); break;
+        case GLUT_KEY_DOWN  : reflect(get_first(g_get_structure())->object, POLYGON_T, true); break;
     }
 }
 
