@@ -43,6 +43,13 @@ void * process_event(Object p, Keyboard_Key_t event_key) {
     }
 }
 
+void remove_fn() {
+    Node_ptr selected_node = get_selected_node();
+    if (selected_node == NULL) return;
+    remove_object(g_get_structure(), selected_node->id);
+    glutPostRedisplay();
+}
+
 void handle_keyboard_event(unsigned char key, int x, int y) {
     if (mode == key) {
         change_to_view_mode();
@@ -59,7 +66,7 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
 
     switch (mode) {
         case VIEW_MODE        : change_to_view_mode(); break;
-        case DELETE_OBJECT    : break;
+        case DELETE_OBJECT    : remove_fn(); break;
         case ROTATE           : rotate(get_selected_node()); break;
         case SCALE_UP         : break;
         case SCALE_DOWN       : break;
