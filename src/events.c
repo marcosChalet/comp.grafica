@@ -38,6 +38,7 @@ void * process_event(Object p, Keyboard_Key_t event_key) {
         case CREATING_LINE    : return create_line(p);
         case CREATING_POLYGON : return create_polygon(p);
         case SELECT           : return handle_select_object(p);
+        case TRANSLATE        : return translate(get_selected_node(), p);
         default               : return NULL;
     }
 }

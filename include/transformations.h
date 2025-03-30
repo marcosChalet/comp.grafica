@@ -4,5 +4,6 @@
 #include "objects.h"
 
 void * rotate(Object);
+void * translate(Object, Point_d *);
 
 #endif
