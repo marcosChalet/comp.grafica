@@ -7,7 +7,7 @@ typedef enum {
     CREATING_POINT = 'p',
     CREATING_LINE = 'l',
     CREATING_POLYGON = 'g',
-    DELETE_OBJECT = 'd',
+    DELETE_OBJECT = 8,
     ROTATE = 'r',
     SELECT = 's',
     TRANSLATE = 't',
