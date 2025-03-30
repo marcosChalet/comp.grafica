@@ -5,6 +5,6 @@
 
 void * rotate(Object);
 void * translate(Object, Point_d *);
-void * reflect(Object, Objec_t, bool);
+void * reflect(Node_ptr, bool);
 
 #endif
