@@ -16,6 +16,12 @@ void draw_point(Point_d * self) {
 
 void draw_line(Line_d * self) {
     printf(BLUE "DEBUG: Desenhando Linha\n" RESET);
+    
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
     glColor3f(0.0, 0.0, 0.0);
     glLineWidth(SIZE);
     glBegin(GL_LINES);
@@ -35,7 +41,15 @@ void draw_polygon(Polygon_d * self) {
         return;
     }
 
-    glColor3f(0.9, 0.9, 0.9);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
+    glEnable(GL_POLYGON_SMOOTH);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    glColor4f(0.6, 0.6, 0.9, 0.2);
     glLineWidth(SIZE);
 
     glBegin(GL_POLYGON);
@@ -45,11 +59,23 @@ void draw_polygon(Polygon_d * self) {
     }
     glEnd();
 
-    glColor3f(0.4, 0.4, 0.4);
+    glDisable(GL_POLYGON_SMOOTH);
+
+    glColor4f(0.4, 0.4, 0.4, 1.0);
     glBegin(GL_LINE_LOOP);
     for (int i = 0; i < num_objects; i++) {
         Point_d *p = (Point_d *)objects_list[i]->object;
         glVertex2i(p->x, p->y);
+    }
+    glEnd();
+
+    glPointSize(5.0);
+    glColor3f(1.0, 0.0, 0.0);
+    
+    glBegin(GL_POINTS);
+    for (int i = 0; i < num_objects; i++) {
+        Point_d *p = (Point_d *)objects_list[i]->object;
+        glVertex2f((float)p->x, (float)p->y);
     }
     glEnd();
 }

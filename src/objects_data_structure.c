@@ -22,24 +22,32 @@ bool is_empty(const Object obj) {
 }
 
 bool remove_object(Structure * list, const int id) {
-    if (is_empty(list->head)) return false;
+    if (is_empty(list)) return false;
 
     Node_ptr aux = list->head;
     Node_ptr prev = NULL;
-    if (list->head->id == id) {
-        list->head = list->head->next;
-        free(aux);
-        return true;
-    }
 
-    while(aux && aux->id != id) {
+    while (aux && aux->id != id) {
         prev = aux;
         aux = aux->next;
     }
-    
+
     if (aux == NULL) return false;
-    prev->next = aux->next;
+
+    if (prev == NULL) {
+        list->head = aux->next;
+        if (list->head == NULL) {
+            list->tail = NULL;
+        }
+    } else {
+        prev->next = aux->next;
+        if (prev->next == NULL) {
+            list->tail = prev;
+        }
+    }
+
     free(aux);
+    list->num_objects--;
 
     return true;
 }
