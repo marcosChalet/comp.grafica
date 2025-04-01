@@ -71,9 +71,11 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
         case SCALE_UP         : break;
         case SCALE_DOWN       : break;
         case REFLECT          : break;
-        case SHEAR            : break;
+        case SHEAR            : handle_shear_object(); break;
         default               : break;
     }
+
+    glutPostRedisplay();
 }
 
 void handle_keyboard_event_special(int key, int x, int y) {
