@@ -29,6 +29,22 @@ void init(void) {
     gluOrtho2D(0.0, windowWidth, 0.0, windowHeight);
 }
 
+void reshape(int width, int height) {
+    if (height == 0) height = 1;
+
+    windowWidth = width;
+    windowHeight = height;
+
+    glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    gluOrtho2D(0.0, width, 0.0, height);
+
+    glMatrixMode(GL_MODELVIEW);
+}
+
+
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -41,6 +57,7 @@ int main(int argc, char** argv) {
     init();
 
     // glutFullScreen();
+    glutReshapeFunc(reshape);
     glutDisplayFunc(display);
     glutKeyboardFunc(handle_keyboard_event);
     glutSpecialFunc(handle_keyboard_event_special);

@@ -21,29 +21,27 @@ bool is_empty(const Object obj) {
     return (obj == NULL);
 }
 
-bool remove_object(Structure * list, const int id) {
+bool remove_object(Structure *list, const int id) {
     if (is_empty(list)) return false;
 
     Node_ptr aux = list->head;
-    Node_ptr prev = NULL;
 
     while (aux && aux->id != id) {
-        prev = aux;
         aux = aux->next;
     }
 
     if (aux == NULL) return false;
 
-    if (prev == NULL) {
-        list->head = aux->next;
-        if (list->head == NULL) {
-            list->tail = NULL;
-        }
+    if (aux->prev != NULL) {
+        aux->prev->next = aux->next;
     } else {
-        prev->next = aux->next;
-        if (prev->next == NULL) {
-            list->tail = prev;
-        }
+        list->head = aux->next;
+    }
+
+    if (aux->next != NULL) {
+        aux->next->prev = aux->prev;
+    } else {
+        list->tail = aux->prev;
     }
 
     free(aux);
@@ -52,7 +50,8 @@ bool remove_object(Structure * list, const int id) {
     return true;
 }
 
-bool add_object(Structure * list, const Object my_object, int type) {
+bool add_object(Structure *list, const Object my_object, int type) {
+
     if (is_empty(list)) {
         list = create_structure();
     }
@@ -63,15 +62,17 @@ bool add_object(Structure * list, const Object my_object, int type) {
     new_node->id = generate_id();
     new_node->object = my_object;
     new_node->next = NULL;
+    new_node->prev = NULL;
     new_node->type = type;
 
     if (list->head == NULL) {
         list->head = new_node;
-        list->tail = list->head;
+        list->tail = new_node;
         list->num_objects = 1;
         return true;
     }
 
+    new_node->prev = list->tail;
     list->tail->next = new_node;
     list->tail = new_node;
     list->num_objects++;

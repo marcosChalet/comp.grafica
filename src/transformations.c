@@ -250,3 +250,92 @@ void *reflect(Node_ptr o, bool isVerticalFlip)
 
     return NULL;
 }
+
+// TODO: Functions to scale feature
+
+void scale_point(Point_d *p, Point_d *origin, double scale_factor_x, double scale_factor_y)
+{
+
+    if (p == NULL || origin == NULL)
+    {
+        perror("ERROR: O ponto ou a origem é inválido\n");
+        return;
+    }
+
+    double x_shifted = p->x - origin->x;
+    double y_shifted = p->y - origin->y;
+
+    x_shifted = scale_factor_x * x_shifted;
+    y_shifted = scale_factor_y * y_shifted;
+
+    p->x = x_shifted + origin->x;
+    p->y = y_shifted + origin->y;
+}
+
+void scale_line(Line_d *l, double scale_factor_x, double scale_factor_y)
+{
+
+    Point_d mid;
+    mid.x = (l->s_point->x + l->e_point->x) / 2.0;
+    mid.y = (l->s_point->y + l->e_point->y) / 2.0;
+
+    scale_point(l->s_point, &mid, scale_factor_x, scale_factor_y);
+    scale_point(l->e_point, &mid, scale_factor_x, scale_factor_y);
+}
+
+void scale_polygon(Polygon_d *p, double scale_factor_x, double scale_factor_y)
+{
+
+    Point_d centroid = {0, 0};
+
+    Node_ptr *all_points = get_all(p->vertices);
+
+    for (int i = 0; i < p->vertices->num_objects; i++)
+    {
+        centroid.x += ((Point_d *)all_points[i]->object)->x;
+        centroid.y += ((Point_d *)all_points[i]->object)->y;
+    }
+
+    centroid.x /= p->vertices->num_objects;
+    centroid.y /= p->vertices->num_objects;
+
+    for (int i = 0; i < p->vertices->num_objects; i++)
+    {
+        scale_point((Point_d *)all_points[i]->object, &centroid, scale_factor_x, scale_factor_y);
+    }
+}
+
+void *scale(Node_ptr o, bool is_scale_up, bool scale_x, bool scale_y)
+{
+
+    if (o == NULL || ((Node_ptr)o)->object == NULL)
+    {
+        perror(RED "ERROR: O objeto não foi selecionado\n" RESET);
+        return NULL;
+    }
+    
+
+    glut_post_redisplay();
+
+    double scale_variation = 0.1;
+
+    if (is_scale_up == true)
+        scale_variation = 1 + scale_variation;
+    else
+        scale_variation = 1 - scale_variation;
+
+    double scale_factor_x = (scale_x == true) ? scale_variation : 1;
+    double scale_factor_y = (scale_y == true) ? scale_variation : 1;
+
+    switch (((Node_ptr)o)->type)
+    {
+    case LINE_T:
+        scale_line(((Node_ptr)o)->object, scale_factor_x, scale_factor_y);
+        break;
+    case POLYGON_T:
+        scale_polygon(((Node_ptr)o)->object, scale_factor_x, scale_factor_y);
+        break;
+    default:
+        break;
+    }
+}

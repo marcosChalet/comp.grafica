@@ -84,7 +84,27 @@ char * enum_to_string(int mode) {
             strcpy(str_mode, "SCALE_UP");
             str_mode[8] = '\0';
             break;
+        case SCALE_UP_X:
+            str_mode = malloc(sizeof(char)*9);
+            strcpy(str_mode, "SCALE_UP");
+            str_mode[8] = '\0';
+            break;
+        case SCALE_UP_Y:
+            str_mode = malloc(sizeof(char)*9);
+            strcpy(str_mode, "SCALE_UP");
+            str_mode[8] = '\0';
+            break;
         case SCALE_DOWN:
+            str_mode = malloc(sizeof(char)*11);
+            strcpy(str_mode, "SCALE_DOWN");
+            str_mode[10] = '\0';
+            break;
+        case SCALE_DOWN_X:
+            str_mode = malloc(sizeof(char)*11);
+            strcpy(str_mode, "SCALE_DOWN");
+            str_mode[10] = '\0';
+            break;
+        case SCALE_DOWN_Y:
             str_mode = malloc(sizeof(char)*11);
             strcpy(str_mode, "SCALE_DOWN");
             str_mode[10] = '\0';
