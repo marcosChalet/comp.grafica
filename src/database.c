@@ -5,7 +5,7 @@
 #include "events.h"
 #include "utils.h"
 
-void load_point(FILE *, Structure *);
+void load_point(FILE *, Structure *, char codename[]);
 
 void load_polygon(FILE * fp, Structure * objects) {
     int num_objects;
@@ -17,7 +17,7 @@ void load_polygon(FILE * fp, Structure * objects) {
     }
 
     for (int i = 0; i < num_objects; i++) {
-        load_point(fp, vertices);
+        load_point(fp, vertices, "vértice");
     }
 
     add_object(objects, object_factory(vertices, POLYGON_T), POLYGON_T);
@@ -47,11 +47,11 @@ void load_line(FILE * fp, Structure * objects) {
     add_object(objects, object_factory(l, LINE_T), LINE_T);
 }
 
-void load_point(FILE * fp, Structure * objects) {
+void load_point(FILE * fp, Structure * objects, char codename[]) {
     Point_d p;
 
     if (!fscanf(fp, "%d,%d\n", &(p.x), &(p.y))) {
-        perror(RED "Error: Não foi possível ler o ponto" RESET);
+        printf(RED "Error: Não foi possível ler o %s" RESET, codename);
         return;
     }
 
@@ -88,7 +88,7 @@ void load_objects(Structure * objects) {
 
     while(fscanf(fp, "%d\n", &type) != EOF) {
         switch (type) {
-            case POINT_T   : load_point(fp, objects); break;
+            case POINT_T   : load_point(fp, objects, "ponto"); break;
             case LINE_T    : load_line(fp, objects); break;
             case POLYGON_T : load_polygon(fp, objects); break;
         }
