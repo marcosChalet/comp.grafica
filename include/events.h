@@ -17,8 +17,10 @@ typedef enum {
     SCALE_DOWN = '4',
     SCALE_DOWN_X = '5',
     SCALE_DOWN_Y = '6',
+    SHEAR = '7',
+    SHEAR_X = '8',
+    SHEAR_Y = '9',
     REFLECT = 'x',
-    SHEAR = 'c',
     VIEW_MODE = 27,
 } Keyboard_Key_t;
 

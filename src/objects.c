@@ -330,12 +330,14 @@ void shear_polygon(Polygon_d *polygon, float shx, float shy) {
     }
 }
 
-void * handle_shear_object() {
-    Node* node = get_selected_node();
+void * handle_shear_object(Node* node, bool is_horizontal, bool is_vertical) {
+    int shx = is_horizontal ? SHEAR_VALUE : 0,
+        shy = is_vertical ? SHEAR_VALUE : 0;
+
     if (!node) return NULL;
     switch (node->type) {
-        case LINE_T: shear_line(node->object, SHEAR_VALUE, SHEAR_VALUE);  break;
-        case POLYGON_T: shear_polygon(node->object, SHEAR_VALUE, SHEAR_VALUE);  break;
+        case LINE_T: shear_line(node->object, shx, shy);  break;
+        case POLYGON_T: shear_polygon(node->object, shx, shy);  break;
         default: break;
     }
 }

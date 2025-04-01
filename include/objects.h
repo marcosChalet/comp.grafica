@@ -41,6 +41,6 @@ void * handle_select_object(Point_d *);
 bool check_is_selected_point(Point_d *, Node *);
 bool check_is_selected_line(Point_d *, Node *);
 bool check_is_selected_polygon(Point_d *, Node *);
-void * handle_shear_object();
+void * handle_shear_object(Node*, bool, bool);
 
 #endif
