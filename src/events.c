@@ -69,8 +69,12 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
         case DELETE_OBJECT    : remove_fn(); break;
         case ROTATE           : rotate(get_selected_node()); break;
         case SCALE_UP         : scale(get_selected_node(), true, true, true); break;
+        case SCALE_UP_X       : scale(get_selected_node(), true, true, false); break;
+        case SCALE_UP_Y       : scale(get_selected_node(), true, false, true); break;
         case SCALE_DOWN       : scale(get_selected_node(), false, true, true); break;
-        case REFLECT          : break;
+        case SCALE_DOWN_X     : scale(get_selected_node(), false, true, false); break;
+        case SCALE_DOWN_Y     : scale(get_selected_node(), false, false, true); break;
+        // case REFLECT          : break;
         case SHEAR            : break;
         default               : break;
     }

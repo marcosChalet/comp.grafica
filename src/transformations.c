@@ -308,6 +308,13 @@ void scale_polygon(Polygon_d *p, double scale_factor_x, double scale_factor_y)
 void *scale(Node_ptr o, bool is_scale_up, bool scale_x, bool scale_y)
 {
 
+    if (o == NULL || ((Node_ptr)o)->object == NULL)
+    {
+        perror(RED "ERROR: O objeto não foi selecionado\n" RESET);
+        return NULL;
+    }
+    
+
     glut_post_redisplay();
 
     double scale_variation = 0.1;

@@ -4,22 +4,27 @@ Projeto 1 da cadeira de Computação Gráfica - Universidade Federal do Cariri
 
 ## Atalhos do Teclado
 
-| Tecla | Ação                 |
-| ----- | -------------------- |
-| `p`   | Criar Ponto          |
-| `l`   | Criar Linha          |
-| `g`   | Criar Polígono       |
-| `d`   | Deletar Objeto       |
-| `r`   | Rotacionar           |
-| `s`   | Selecionar           |
-| `t`   | Transladar           |
-| `+`   | Aumentar Escala      |
-| `-`   | Diminuir Escala      |
-| `x`   | Refletir             |
-| `c`   | Cisalhar (Shear)     |
-| `F8`  | Salvar Dados         |
-| `F9`  | Carregar Dados       |
-| `Esc` | Modo de Visualização |
+| Tecla        | Ação                     |
+| ------------ | ------------------------ |
+| `p`          | Criar Ponto              |
+| `l`          | Criar Linha              |
+| `g`          | Criar Polígono           |
+| `d`          | Deletar Objeto           |
+| `r`          | Rotacionar               |
+| `s`          | Selecionar               |
+| `t`          | Transladar               |
+| `1`          | Aumentar Escala em X e Y |
+| `2`          | Aumentar Escala em X     |
+| `3`          | Aumentar Escala em Y     |
+| `4`          | Diminuir Escala em X e Y |
+| `5`          | Diminuir Escala em X     |
+| `6`          | Diminuir Escala em Y     |
+| `up/down`    | Refletir em X            |
+| `right/left` | Refletir em Y            |
+| `c`          | Cisalhar (Shear)         |
+| `F8`         | Salvar Dados             |
+| `F9`         | Carregar Dados           |
+| `Esc`        | Modo de Visualização     |
 
 ## Informações Úteis
 
