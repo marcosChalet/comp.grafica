@@ -94,7 +94,18 @@ void handle_keyboard_event_special(int key, int x, int y) {
 }
 
 void handle_mouse_event(int button, int state, int x, int y) {
-    // if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN) return;
+    if (mode != SELECT && state != GLUT_DOWN) {
+        return;
+    }
+
+    if (button != GLUT_LEFT_BUTTON) {
+        return;
+    }
+
+    if (mode == TRANSLATE) {
+        mode = SELECT;
+    }
+
     if (state == GLUT_UP && mode == SELECT) {
         mode = TRANSLATE;
     }
@@ -106,6 +117,4 @@ void handle_mouse_event(int button, int state, int x, int y) {
     p->y = windowHeight - y;
     Object obj = process_event(p, mode);
     if (obj == NULL) return;
-
-    // add_object(&objects, obj, mode_to_type(mode));
 }
