@@ -19,6 +19,9 @@ Projeto 1 da cadeira de Computação Gráfica - Universidade Federal do Cariri
 | `4`          | Diminuir Escala em X e Y |
 | `5`          | Diminuir Escala em X     |
 | `6`          | Diminuir Escala em Y     |
+| `7`          | Cisalhamento em X e Y    |
+| `8`          | Cisalhamento em X        |
+| `9`          | Cisalhamento em Y        |
 | `up/down`    | Refletir em X            |
 | `right/left` | Refletir em Y            |
 | `c`          | Cisalhar (Shear)         |
