@@ -41,6 +41,7 @@ void load_line(FILE * fp, Structure * objects) {
         )
     ) {
         perror(RED "Error: Não foi possível ler a linha" RESET);
+        return;
     }
     
     add_object(objects, object_factory(l, LINE_T), LINE_T);
