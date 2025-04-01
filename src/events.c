@@ -68,8 +68,8 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
         case VIEW_MODE        : change_to_view_mode(); break;
         case DELETE_OBJECT    : remove_fn(); break;
         case ROTATE           : rotate(get_selected_node()); break;
-        case SCALE_UP         : break;
-        case SCALE_DOWN       : break;
+        case SCALE_UP         : scale(get_selected_node(), true, true, true); break;
+        case SCALE_DOWN       : scale(get_selected_node(), false, true, true); break;
         case REFLECT          : break;
         case SHEAR            : break;
         default               : break;
