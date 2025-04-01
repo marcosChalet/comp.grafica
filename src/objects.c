@@ -178,7 +178,10 @@ bool check_is_selected_line(Point_d *m, Node *node) {
         end_point_region_code = compute_out_code(
             x2, y2, x_max, x_min, y_max, y_min);
     
-    while (true)
+    int iterations = 0;
+    const int max_iterations = 100; 
+
+    while (iterations++ < max_iterations)
     {
         if (start_point_region_code == 0 && end_point_region_code == 0) {
             printf(BLUE "DEBUG: Linha selecionada\n" RESET);
