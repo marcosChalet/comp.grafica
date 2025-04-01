@@ -94,7 +94,10 @@ void handle_keyboard_event_special(int key, int x, int y) {
 }
 
 void handle_mouse_event(int button, int state, int x, int y) {
-    if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN) return;
+    // if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN) return;
+    if (state == GLUT_UP && mode == SELECT) {
+        mode = TRANSLATE;
+    }
 
     Point_d * p = malloc(sizeof(Point_d));
     verify_allocation_error(p);
