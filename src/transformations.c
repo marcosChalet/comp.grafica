@@ -146,7 +146,7 @@ void translate_polygon(Polygon_d *polygon, Point_d *final_centroid)
 
 void *translate(Object o, Point_d *p)
 {
-
+    printf("transladando node\n");
     if (o == NULL || ((Node_ptr)o)->object == NULL)
     {
         perror(RED "ERROR: O objeto não foi selecionado\n" RESET);

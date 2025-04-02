@@ -106,13 +106,13 @@ void handle_mouse_event(int button, int state, int x, int y) {
         return;
     }
 
-    if (mode == TRANSLATE) {
-        mode = SELECT;
-    }
+    // if (mode == TRANSLATE) {
+    //     mode = SELECT;
+    // }
 
-    if (state == GLUT_UP && mode == SELECT) {
-        mode = TRANSLATE;
-    }
+    // if (state == GLUT_UP && mode == SELECT) {
+    //     mode = TRANSLATE;
+    // }
 
     Point_d * p = malloc(sizeof(Point_d));
     verify_allocation_error(p);
