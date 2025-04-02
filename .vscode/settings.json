@@ -7,6 +7,8 @@
         "*.css": "tailwindcss",
         "objects.h": "c",
         "global_state.h": "c",
-        "opengl_functions.h": "c"
+        "opengl_functions.h": "c",
+        "transformations.h": "c",
+        "objects_data_structure.h": "c"
     }
 }

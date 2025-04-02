@@ -75,9 +75,13 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
         case SCALE_DOWN_X     : scale(get_selected_node(), false, true, false); break;
         case SCALE_DOWN_Y     : scale(get_selected_node(), false, false, true); break;
         // case REFLECT          : break;
-        case SHEAR            : break;
+        case SHEAR            : handle_shear_object(get_selected_node(), true, true); break;
+        case SHEAR_X          : handle_shear_object(get_selected_node(), true, false); break;
+        case SHEAR_Y          : handle_shear_object(get_selected_node(), false, true); break;
         default               : break;
     }
+
+    glutPostRedisplay();
 }
 
 void handle_keyboard_event_special(int key, int x, int y) {

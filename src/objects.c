@@ -262,7 +262,6 @@ bool check_is_selected_polygon(Point_d *m, Node *node) {
     return (count % 2 == 1);
 }
 
-
 void *handle_select_object(Point_d *point) {
     // percorrer todos os objetos
     Node_ptr node = g_get_head();
@@ -302,4 +301,46 @@ void *handle_select_object(Point_d *point) {
     set_selected_node(NULL);
 
     return NULL;
+}
+
+void shear_point(Point_d *p, float shx, float shy) {
+    float new_x = p->x + shx * p->y;
+    float new_y = p->y + shy * p->x;
+    printf("Pontos x:%d\ty:%d\tnew_x:%f\tnew_y:%f\n", p->x, p->y, new_x, new_y);
+    p->x = (int) new_x;
+    p->y = (int) new_y;
+}
+
+void shear_line(Line_d *l, float shx, float shy) {
+    shear_point(l->s_point, shx, shy);
+    shear_point(l->e_point, shx, shy);
+}
+
+void shear_polygon(Polygon_d *polygon, float shx, float shy) {
+    printf("testando\n");
+    if (!polygon || !polygon->vertices) {
+        printf("Polygon: %p\n\tVertices: %p\n", polygon, polygon->vertices);
+        return;
+    }
+
+    printf("Poligono passou\n");
+
+    Node_ptr *vertices = get_all(polygon->vertices);
+
+    for (int i = 0; vertices[i] != NULL; i++) {
+        Point_d *p = (Point_d *) vertices[i]->object;
+        shear_point(p, shx, shy);
+    }
+}
+
+void * handle_shear_object(Node* node, bool is_horizontal, bool is_vertical) {
+    int shx = is_horizontal ? SHEAR_VALUE : 0,
+        shy = is_vertical ? SHEAR_VALUE : 0;
+
+    if (!node) return NULL;
+    switch (node->type) {
+        case LINE_T: shear_line(node->object, shx, shy);  break;
+        case POLYGON_T: shear_polygon(node->object, shx, shy);  break;
+        default: break;
+    }
 }
