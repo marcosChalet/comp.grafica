@@ -2,6 +2,8 @@
 
 Projeto 1 da cadeira de Computação Gráfica - Universidade Federal do Cariri
 
+**Link da apresentação do Canva:** [https://www.canva.com/design/DAGja0JxlJE/K8n2fl86iPNhDvf4dWNvnA/view?utm_content=DAGja0JxlJE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4077a64772](https://www.canva.com/design/DAGja0JxlJE/K8n2fl86iPNhDvf4dWNvnA/view?utm_content=DAGja0JxlJE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4077a64772)
+
 ## Atalhos do Teclado
 
 | Tecla        | Ação                     |
