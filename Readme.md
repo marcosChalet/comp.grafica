@@ -33,3 +33,25 @@ Projeto 1 da cadeira de Computação Gráfica - Universidade Federal do Cariri
 2. Quando estiver em um modo de criação, você pode alternar entre ele e o modo de visualização pressionando a tecla correspondente novamente. Por exemplo, se estiver no modo de criação de linhas (l) e pressionar l novamente, retornará ao modo de visualização. Você também pode sair para o modo de visualização pressionando Esc.
 
 3. Caso alterne para outro modo antes de concluir um objeto, o progresso será descartado se os requisitos mínimos não forem atendidos. Por exemplo, uma linha só é criada se possuir dois pontos, e um polígono precisa de pelo menos três pontos.
+
+## Como Rodar o Projeto
+
+Abra um terminal na pasta do projeto. Com o **make** e as dependências do **OpenGL** instaladas rode os seguintes passos:
+
+1. compile o projeto
+
+   ```c
+   $ make
+   ```
+
+2. Rode o executável gerado
+
+   ```c
+   $ make run
+   ```
+
+\* Caso Queira limpar os arquivos binários utilize o seguinte comando:
+
+```c
+    $ make clear
+```
