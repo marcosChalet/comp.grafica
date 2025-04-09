@@ -296,6 +296,7 @@ void *handle_select_object(Point_d *point) {
         }
         
         node = node->next;
+        
     }
 
     set_selected_node(NULL);

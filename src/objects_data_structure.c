@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "utils.h"
 #include "objects_data_structure.h"
+#include "objects.h"
 
 int generate_id() {
     static int id = 0;
@@ -119,4 +120,33 @@ Node_ptr * get_all(Structure * list) {
     all_objects[list->num_objects] = NULL;
 
     return all_objects;
+}
+
+Structure ** split_list(Structure * list, int divider) {
+    if (!list) return NULL;
+    if (divider > list->num_objects) return NULL;
+
+    Structure ** splited_list = malloc(sizeof(Structure*) * 2);
+    verify_allocation_error(splited_list);
+
+    splited_list[0] = malloc(sizeof(Structure));
+    verify_allocation_error(splited_list[0]);
+
+    splited_list[1] = malloc(sizeof(Structure));
+    verify_allocation_error(splited_list[1]);
+
+    Node_ptr aux = list->head;
+    
+    while(aux != NULL) {
+        if (((Point_d *)aux->object)->x <= divider)
+        {
+            add_object(splited_list[0], aux->object, aux->type);
+        } else {
+            add_object(splited_list[1], aux->object, aux->type);
+        }
+        
+        aux = aux->next;
+    }
+
+    return splited_list;
 }

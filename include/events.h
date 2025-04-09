@@ -20,6 +20,7 @@ typedef enum {
     SHEAR = '7',
     SHEAR_X = '8',
     SHEAR_Y = '9',
+    TO_CONVEX = '0',
     REFLECT = 'x',
     VIEW_MODE = 27,
 } Keyboard_Key_t;

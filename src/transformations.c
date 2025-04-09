@@ -313,7 +313,6 @@ void *scale(Node_ptr o, bool is_scale_up, bool scale_x, bool scale_y)
         perror(RED "ERROR: O objeto não foi selecionado\n" RESET);
         return NULL;
     }
-    
 
     glut_post_redisplay();
 
@@ -338,4 +337,140 @@ void *scale(Node_ptr o, bool is_scale_up, bool scale_x, bool scale_y)
     default:
         break;
     }
+}
+
+// TODO: Convert to Convex
+
+int comparate(const void *a, const void *b)
+{
+    return (*(int *)a - *(int *)b);
+}
+
+double calculate_median(Node_ptr *all_points, int size)
+{
+
+    double *x_values = (double *)malloc(size * sizeof(double));
+
+    if (x_values == NULL)
+    {
+        printf("Erro ao alocar memória.\n");
+        return -1;
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        x_values[i] = ((Point_d *)all_points[i]->object)->x;
+    }
+
+    qsort(x_values, size, sizeof(int), comparate);
+
+    if (size % 2 == 0)
+    {
+        return (x_values[size / 2 - 1] + x_values[size / 2]) / 2.0;
+    }
+    else
+    {
+        return x_values[size / 2];
+    }
+}
+
+Structure *merge_polygon(Structure *left_points, Structure *right_points)
+{
+    Node_ptr aux = left_points->head;
+    
+    Node_ptr lb_bind = aux;
+    
+    for (int i = 0; i < left_points->num_objects; i++)
+    {
+        if (((Point_d *)lb_bind->object)->y > ((Point_d *)aux->object)->y)
+        {
+            lb_bind = aux;
+        }
+        
+        aux = aux->next;
+    }
+    
+    aux = right_points->head;
+    Node_ptr rb_bind = aux;
+
+    for (int i = 0; i < right_points->num_objects; i++)
+    {
+        if (((Point_d *)rb_bind->object)->y > ((Point_d *)aux->object)->y)
+        {
+            rb_bind = aux;
+        }
+
+        aux = aux->next;
+    }
+
+    aux = right_points->head;
+    Node_ptr rt_bind = aux;
+
+    for (int i = 0; i < right_points->num_objects; i++)
+    {
+        if (((Point_d *)rt_bind->object)->y < ((Point_d *)aux->object)->y)
+        {
+            rt_bind = aux;
+        }
+
+        aux = aux->next;
+    }
+
+    aux = left_points->head;
+    Node_ptr lt_bind = aux;
+
+    for (int i = 0; i < right_points->num_objects; i++)
+    {
+        if (((Point_d *)lt_bind->object)->y < ((Point_d *)aux->object)->y)
+        {
+            lt_bind = aux;
+        }
+
+        aux = aux->next;
+    }
+    
+    lb_bind->next = rb_bind;
+    rb_bind->prev = lb_bind;
+
+    lt_bind->next = rt_bind;
+    rt_bind->prev = lt_bind;
+
+    return left_points;
+}
+
+Structure *divide_and_conquiste(Structure *list)
+{
+
+    if ((list)->num_objects <= 3)
+        return list;
+
+    double median = calculate_median(get_all(list), (list)->num_objects);
+
+    Structure ** splited_list = split_list(list, median);
+
+    Structure *left_points = divide_and_conquiste(splited_list[0]);
+    Structure *right_points = divide_and_conquiste(splited_list[1]);
+    
+    Structure *merged = merge_polygon(left_points, right_points);
+
+    return merged;
+
+}
+
+void *convert_to_convex(Node_ptr o)
+{
+
+    if (o == NULL || ((Node_ptr)o)->object == NULL)
+    {
+        perror(RED "ERROR: O objeto não foi selecionado\n" RESET);
+        return NULL;
+    }
+
+    glut_post_redisplay();
+
+    if (o->type != POLYGON_T) return NULL;
+    
+    divide_and_conquiste(((Polygon_d *)o->object)->vertices);
+    
+    return NULL;
 }

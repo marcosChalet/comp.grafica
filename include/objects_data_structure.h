@@ -26,6 +26,7 @@ Node_ptr get_last(Structure *);
 Node_ptr * get_all(Structure *);
 Object get_object(Structure *, int);
 
-bool add_object(Structure *, const Object, int type);
+bool add_object(Structure *, const Object, int);
+Structure ** split_list(Structure *, int);
 
 #endif
