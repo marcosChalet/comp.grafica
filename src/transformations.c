@@ -339,3 +339,39 @@ void *scale(Node_ptr o, bool is_scale_up, bool scale_x, bool scale_y)
         break;
     }
 }
+
+Structure * merge_convex_polygons() {
+    return NULL;
+}
+
+Structure * divide_and_conquer_alg(Structure * polygon_vertices) {
+
+    int num_vertices = get_num_objects(polygon_vertices);
+    if (num_vertices <= 3) {
+        return polygon_vertices;
+    }
+
+    int mid = num_vertices / 2;
+    Structure ** polygon_sides = split_list(polygon_vertices, mid);
+    if (!polygon_sides) exit(0);
+
+    Structure * left_convex_polygon = divide_and_conquer_alg(polygon_sides[0]);
+    Structure * right_convex_polygon = divide_and_conquer_alg(polygon_sides[1]);
+    Structure * convex_polygon = merge_convex_polygons(left_convex_polygon, right_convex_polygon);
+
+    return convex_polygon;
+}
+
+void divide_and_conquer(Node_ptr selected_node) {
+    if (selected_node->type != POLYGON_T) return;
+
+    Node_ptr new_node = malloc(sizeof(Node));
+    new_node->object = malloc(sizeof(Polygon_d));
+    ((Polygon_d*)new_node->object)->vertices = copy_structure(((Polygon_d *)selected_node->object)->vertices);
+
+    Structure * new_vertices = divide_and_conquer_alg(
+        ((Polygon_d *)new_node->object)->vertices
+    );
+
+    // ((Polygon_d *)selected_node->object)->vertices = new_vertices;
+}

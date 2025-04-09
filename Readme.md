@@ -24,6 +24,7 @@ Projeto 1 da cadeira de Computação Gráfica - Universidade Federal do Cariri
 | `7`          | Cisalhamento em X e Y    |
 | `8`          | Cisalhamento em X        |
 | `9`          | Cisalhamento em Y        |
+| `0`          | Convexo                  |
 | `up/down`    | Refletir em X            |
 | `right/left` | Refletir em Y            |
 | `c`          | Cisalhar (Shear)         |

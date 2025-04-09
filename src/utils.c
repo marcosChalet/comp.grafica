@@ -119,6 +119,11 @@ char * enum_to_string(int mode) {
             strcpy(str_mode, "SHEAR");
             str_mode[5] = '\0';
             break;
+        case TO_CONVEX:
+            str_mode = malloc(sizeof(char)*10);
+            strcpy(str_mode, "TO_CONVEX");
+            str_mode[9] = '\0';
+            break;
         default:
             str_mode = NULL;
             break;

@@ -78,6 +78,7 @@ void handle_keyboard_event(unsigned char key, int x, int y) {
         case SHEAR            : handle_shear_object(get_selected_node(), true, true); break;
         case SHEAR_X          : handle_shear_object(get_selected_node(), true, false); break;
         case SHEAR_Y          : handle_shear_object(get_selected_node(), false, true); break;
+        case TO_CONVEX        : divide_and_conquer(get_selected_node()); break;
         default               : break;
     }
 
