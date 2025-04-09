@@ -25,6 +25,8 @@ Node_ptr get_first(Structure *);
 Node_ptr get_last(Structure *);
 Node_ptr * get_all(Structure *);
 Object get_object(Structure *, int);
+Structure ** split_list(Structure *, int);
+Structure * copy_structure(Structure *);
 
 bool add_object(Structure *, const Object, int type);
 

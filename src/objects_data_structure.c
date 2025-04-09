@@ -120,3 +120,51 @@ Node_ptr * get_all(Structure * list) {
 
     return all_objects;
 }
+
+Structure ** split_list(Structure * list, int divider) {
+    if (!list) return NULL;
+    if (divider > list->num_objects) return NULL;
+
+    Structure ** splited_list = malloc(sizeof(Structure*) * 2);
+    verify_allocation_error(splited_list);
+
+    splited_list[0] = malloc(sizeof(Structure));
+    verify_allocation_error(splited_list[0]);
+
+    splited_list[1] = malloc(sizeof(Structure));
+    verify_allocation_error(splited_list[1]);
+
+    splited_list[0]->num_objects = divider;
+    splited_list[1]->num_objects = list->num_objects - divider;
+
+    splited_list[0]->head = list->head;
+    splited_list[1]->head = list->tail;
+
+    Node_ptr aux = list->head;
+    int i = 0;
+    while(i++ < divider) {
+        aux = aux->next;
+    }
+
+    splited_list[0]->tail = aux;
+    splited_list[1]->head = aux->next;
+
+    aux->next = NULL;
+
+    return splited_list;
+}
+
+Structure * copy_structure(Structure * original) {
+    if (!original) return NULL;
+
+    Structure *copy = create_structure();
+    Node_ptr aux = original->head;
+
+    while (aux) {
+        Object copied_object = aux->object;
+        add_object(copy, copied_object, aux->type);
+        aux = aux->next;
+    }
+
+    return copy;
+}
