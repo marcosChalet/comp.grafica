@@ -362,7 +362,7 @@ double calculate_median(Node_ptr *all_points, int size)
         x_values[i] = ((Point_d *)all_points[i]->object)->x;
     }
 
-    qsort(x_values, size, sizeof(int), comparate);
+    qsort(x_values, size, sizeof(double), comparate);
 
     if (size % 2 == 0)
     {
@@ -419,7 +419,7 @@ Structure *merge_polygon(Structure *left_points, Structure *right_points)
     aux = left_points->head;
     Node_ptr lt_bind = aux;
 
-    for (int i = 0; i < right_points->num_objects; i++)
+    for (int i = 0; i < left_points->num_objects; i++)
     {
         if (((Point_d *)lt_bind->object)->y < ((Point_d *)aux->object)->y)
         {
@@ -440,21 +440,17 @@ Structure *merge_polygon(Structure *left_points, Structure *right_points)
 
 Structure *divide_and_conquiste(Structure *list)
 {
-
     if ((list)->num_objects <= 3)
         return list;
 
     double median = calculate_median(get_all(list), (list)->num_objects);
-
     Structure ** splited_list = split_list(list, median);
-
+    
     Structure *left_points = divide_and_conquiste(splited_list[0]);
     Structure *right_points = divide_and_conquiste(splited_list[1]);
-    
     Structure *merged = merge_polygon(left_points, right_points);
 
     return merged;
-
 }
 
 void *convert_to_convex(Node_ptr o)
@@ -469,8 +465,13 @@ void *convert_to_convex(Node_ptr o)
     glut_post_redisplay();
 
     if (o->type != POLYGON_T) return NULL;
-    
-    divide_and_conquiste(((Polygon_d *)o->object)->vertices);
-    
+    Structure * new_points = divide_and_conquiste(((Polygon_d *)o->object)->vertices);
+
+    // Node_ptr * allx = get_all(new_points);
+    // for (int i = 0; allx[i] != NULL; i++) {
+    //     printf("%d, ", ((Point_d*)allx[i]->object)->x);
+    // }
+    // puts("");
+
     return NULL;
 }

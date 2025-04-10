@@ -123,17 +123,14 @@ Node_ptr * get_all(Structure * list) {
 }
 
 Structure ** split_list(Structure * list, int divider) {
+
     if (!list) return NULL;
-    if (divider > list->num_objects) return NULL;
 
     Structure ** splited_list = malloc(sizeof(Structure*) * 2);
     verify_allocation_error(splited_list);
 
-    splited_list[0] = malloc(sizeof(Structure));
-    verify_allocation_error(splited_list[0]);
-
-    splited_list[1] = malloc(sizeof(Structure));
-    verify_allocation_error(splited_list[1]);
+    splited_list[0] = create_structure();
+    splited_list[1] = create_structure();
 
     Node_ptr aux = list->head;
     
@@ -147,6 +144,6 @@ Structure ** split_list(Structure * list, int divider) {
         
         aux = aux->next;
     }
-
+    
     return splited_list;
 }
