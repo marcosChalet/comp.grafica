@@ -343,7 +343,10 @@ void *scale(Node_ptr o, bool is_scale_up, bool scale_x, bool scale_y)
 
 int comparate(const void *a, const void *b)
 {
-    return (*(int *)a - *(int *)b);
+    double diff = (*(double *)a - *(double *)b);
+    if (diff < 0) return -1;
+    if (diff > 0) return 1;
+    return 0;
 }
 
 double calculate_median(Node_ptr *all_points, int size)
@@ -466,6 +469,8 @@ void *convert_to_convex(Node_ptr o)
 
     if (o->type != POLYGON_T) return NULL;
     Structure * new_points = divide_and_conquiste(((Polygon_d *)o->object)->vertices);
+
+    // ((Polygon_d *)o->object)->vertices = new_points;
 
     // Node_ptr * allx = get_all(new_points);
     // for (int i = 0; allx[i] != NULL; i++) {
