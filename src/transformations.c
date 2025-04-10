@@ -470,7 +470,7 @@ void *convert_to_convex(Node_ptr o)
     if (o->type != POLYGON_T) return NULL;
     Structure * new_points = divide_and_conquiste(((Polygon_d *)o->object)->vertices);
 
-    // ((Polygon_d *)o->object)->vertices = new_points;
+    ((Polygon_d *)o->object)->vertices = new_points;
 
     // Node_ptr * allx = get_all(new_points);
     // for (int i = 0; allx[i] != NULL; i++) {
