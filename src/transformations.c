@@ -547,8 +547,6 @@ Structure **split_at_median(Structure *pol) {
         arr[i] = cur;
     }
 
-    qsort(arr, n, sizeof *arr, compare_nodes);
-
     double median_x = ((Point_d *)arr[n/2]->object)->x;
 
     Structure *left  = create_structure();
