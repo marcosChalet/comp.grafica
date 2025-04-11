@@ -341,142 +341,130 @@ void *scale(Node_ptr o, bool is_scale_up, bool scale_x, bool scale_y)
 
 // TODO: Convert to Convex
 
-int comparate(const void *a, const void *b)
-{
-    double diff = (*(double *)a - *(double *)b);
-    if (diff < 0) return -1;
-    if (diff > 0) return 1;
-    return 0;
+// Comparador para qsort
+int comparate(const void *a, const void *b) {
+    double arg1 = *(const double *)a;
+    double arg2 = *(const double *)b;
+    return (arg1 > arg2) - (arg1 < arg2);
 }
 
-double calculate_median(Node_ptr *all_points, int size)
-{
+// Usado em Graham Scan
+int compare_points(const void *a, const void *b) {
+    Point_d *p1 = *(Point_d **)a;
+    Point_d *p2 = *(Point_d **)b;
+    if (p1->x == p2->x)
+        return p1->y - p2->y;
+    return p1->x - p2->x;
+}
 
-    double *x_values = (double *)malloc(size * sizeof(double));
+int orientation(Point_d *p, Point_d *q, Point_d *r) {
+    int val = (q->y - p->y) * (r->x - q->x) -
+              (q->x - p->x) * (r->y - q->y);
+    if (val == 0) return 0;
+    return (val > 0) ? 1 : 2;
+}
 
-    if (x_values == NULL)
-    {
+Structure *graham_scan(Point_d **points, int n) {
+    if (n <= 3) {
+        Structure *res = create_structure();
+        for (int i = 0; i < n; i++)
+            add_object(res, points[i], POINT_T);
+        return res;
+    }
+
+    qsort(points, n, sizeof(Point_d *), compare_points);
+
+    Point_d **hull = malloc(n * sizeof(Point_d *));
+    int k = 0;
+
+    for (int i = 0; i < n; i++) {
+        while (k >= 2 && orientation(hull[k - 2], hull[k - 1], points[i]) != 2)
+            k--;
+        hull[k++] = points[i];
+    }
+
+    int t = k + 1;
+    for (int i = n - 2; i >= 0; i--) {
+        while (k >= t && orientation(hull[k - 2], hull[k - 1], points[i]) != 2)
+            k--;
+        hull[k++] = points[i];
+    }
+
+    Structure *res = create_structure();
+    for (int i = 0; i < k - 1; i++)
+        add_object(res, hull[i], POINT_T);
+
+    free(hull);
+    return res;
+}
+
+double calculate_median(Node_ptr *all_points, int size) {
+    double *x_values = malloc(size * sizeof(double));
+    if (x_values == NULL) {
         printf("Erro ao alocar memória.\n");
         return -1;
     }
 
     for (int i = 0; i < size; i++)
-    {
         x_values[i] = ((Point_d *)all_points[i]->object)->x;
-    }
 
     qsort(x_values, size, sizeof(double), comparate);
 
+    double median;
     if (size % 2 == 0)
-    {
-        return (x_values[size / 2 - 1] + x_values[size / 2]) / 2.0;
-    }
+        median = (x_values[size / 2 - 1] + x_values[size / 2]) / 2.0;
     else
-    {
-        return x_values[size / 2];
-    }
+        median = x_values[size / 2];
+
+    free(x_values);
+    return median;
 }
 
-Structure *merge_polygon(Structure *left_points, Structure *right_points)
-{
-    Node_ptr aux = left_points->head;
-    
-    Node_ptr lb_bind = aux;
-    
-    for (int i = 0; i < left_points->num_objects; i++)
-    {
-        if (((Point_d *)lb_bind->object)->y > ((Point_d *)aux->object)->y)
-        {
-            lb_bind = aux;
-        }
-        
-        aux = aux->next;
-    }
-    
-    aux = right_points->head;
-    Node_ptr rb_bind = aux;
+Structure *merge_polygon(Structure *left_points, Structure *right_points) {
+    int total = left_points->num_objects + right_points->num_objects;
+    Point_d **all = malloc(total * sizeof(Point_d *));
 
-    for (int i = 0; i < right_points->num_objects; i++)
-    {
-        if (((Point_d *)rb_bind->object)->y > ((Point_d *)aux->object)->y)
-        {
-            rb_bind = aux;
-        }
-
-        aux = aux->next;
-    }
-
-    aux = right_points->head;
-    Node_ptr rt_bind = aux;
-
-    for (int i = 0; i < right_points->num_objects; i++)
-    {
-        if (((Point_d *)rt_bind->object)->y < ((Point_d *)aux->object)->y)
-        {
-            rt_bind = aux;
-        }
-
-        aux = aux->next;
-    }
-
-    aux = left_points->head;
-    Node_ptr lt_bind = aux;
+    Node_ptr *left_arr = get_all(left_points);
+    Node_ptr *right_arr = get_all(right_points);
 
     for (int i = 0; i < left_points->num_objects; i++)
-    {
-        if (((Point_d *)lt_bind->object)->y < ((Point_d *)aux->object)->y)
-        {
-            lt_bind = aux;
-        }
+        all[i] = (Point_d *)left_arr[i]->object;
 
-        aux = aux->next;
-    }
-    
-    lb_bind->next = rb_bind;
-    rb_bind->prev = lb_bind;
+    for (int i = 0; i < right_points->num_objects; i++)
+        all[left_points->num_objects + i] = (Point_d *)right_arr[i]->object;
 
-    lt_bind->next = rt_bind;
-    rt_bind->prev = lt_bind;
+    Structure *res = graham_scan(all, total);
 
-    return left_points;
+    free(all);
+    return res;
 }
 
-Structure *divide_and_conquiste(Structure *list)
-{
-    if ((list)->num_objects <= 3)
+Structure *divide_and_conquiste(Structure *list) {
+    if (list->num_objects <= 3)
         return list;
 
-    double median = calculate_median(get_all(list), (list)->num_objects);
-    Structure ** splited_list = split_list(list, median);
-    
+    double median = calculate_median(get_all(list), list->num_objects);
+    Structure **splited_list = split_list(list, median);
+
     Structure *left_points = divide_and_conquiste(splited_list[0]);
     Structure *right_points = divide_and_conquiste(splited_list[1]);
+
     Structure *merged = merge_polygon(left_points, right_points);
 
     return merged;
 }
 
-void *convert_to_convex(Node_ptr o)
-{
-
-    if (o == NULL || ((Node_ptr)o)->object == NULL)
-    {
+void *convert_to_convex(Node_ptr o) {
+    if (o == NULL || o->object == NULL) {
         perror(RED "ERROR: O objeto não foi selecionado\n" RESET);
         return NULL;
     }
 
-    glut_post_redisplay();
-
     if (o->type != POLYGON_T) return NULL;
-    Structure * new_points = divide_and_conquiste(((Polygon_d *)o->object)->vertices);
 
+    Structure *new_points = divide_and_conquiste(((Polygon_d *)o->object)->vertices);
     ((Polygon_d *)o->object)->vertices = new_points;
 
-    // Node_ptr * allx = get_all(new_points);
-    // for (int i = 0; allx[i] != NULL; i++) {
-    //     printf("%d, ", ((Point_d*)allx[i]->object)->x);
-    // }
-    // puts("");
-
+    glut_post_redisplay();
     return NULL;
 }
