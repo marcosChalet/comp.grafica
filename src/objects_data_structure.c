@@ -22,38 +22,48 @@ bool is_empty(const Object obj) {
 }
 
 bool remove_object(Structure *list, const int id) {
-    if (is_empty(list)) return false;
+    if (!list || is_empty(list)) return false;
 
     Node_ptr aux = list->head;
+    int count = 0;
 
-    while (aux && aux->id != id) {
+    while (count < list->num_objects && aux->id != id) {
         aux = aux->next;
+        count++;
+    }
+    if (count == list->num_objects) {
+        return false;
     }
 
-    if (aux == NULL) return false;
+    if (list->num_objects == 1) {
+        free(aux);
+        list->head = list->tail = NULL;
+        list->num_objects = 0;
+        return true;
+    }
 
-    if (aux->prev != NULL) {
-        aux->prev->next = aux->next;
-    } else {
+    // Reajustar ponteiros dos vizinhos
+    aux->prev->next = aux->next;
+    aux->next->prev = aux->prev;
+
+    // Atualizar head ou tail, se for o caso
+    if (aux == list->head) {
         list->head = aux->next;
     }
-
-    if (aux->next != NULL) {
-        aux->next->prev = aux->prev;
-    } else {
+    if (aux == list->tail) {
         list->tail = aux->prev;
     }
 
-    free(aux);
     list->num_objects--;
 
+    // free_object_contents(&aux->object);
+    // free(aux);
     return true;
 }
 
 bool add_object(Structure *list, const Object my_object, int type) {
-
-    if (is_empty(list)) {
-        list = create_structure();
+    if (list == NULL) {
+        return false;
     }
 
     Node_ptr new_node = malloc(sizeof(Node));
@@ -61,21 +71,24 @@ bool add_object(Structure *list, const Object my_object, int type) {
 
     new_node->id = generate_id();
     new_node->object = my_object;
-    new_node->next = NULL;
-    new_node->prev = NULL;
     new_node->type = type;
 
     if (list->head == NULL) {
+        new_node->next = new_node;
+        new_node->prev = new_node;
         list->head = new_node;
         list->tail = new_node;
         list->num_objects = 1;
-        return true;
+    } else {
+        new_node->prev = list->tail;
+        new_node->next = list->head;
+        
+        list->tail->next = new_node;
+        list->head->prev = new_node;
+        
+        list->tail = new_node;
+        list->num_objects++;
     }
-
-    new_node->prev = list->tail;
-    list->tail->next = new_node;
-    list->tail = new_node;
-    list->num_objects++;
 
     return true;
 }
@@ -121,50 +134,41 @@ Node_ptr * get_all(Structure * list) {
     return all_objects;
 }
 
-Structure ** split_list(Structure * list, int divider) {
-    if (!list) return NULL;
-    if (divider > list->num_objects) return NULL;
-
-    Structure ** splited_list = malloc(sizeof(Structure*) * 2);
-    verify_allocation_error(splited_list);
-
-    splited_list[0] = malloc(sizeof(Structure));
-    verify_allocation_error(splited_list[0]);
-
-    splited_list[1] = malloc(sizeof(Structure));
-    verify_allocation_error(splited_list[1]);
-
-    splited_list[0]->num_objects = divider;
-    splited_list[1]->num_objects = list->num_objects - divider;
-
-    splited_list[0]->head = list->head;
-    splited_list[1]->head = list->tail;
-
-    Node_ptr aux = list->head;
-    int i = 0;
-    while(i++ < divider) {
-        aux = aux->next;
-    }
-
-    splited_list[0]->tail = aux;
-    splited_list[1]->head = aux->next;
-
-    aux->next = NULL;
-
-    return splited_list;
+Structure **split_list(Structure *original, int split_index) {
+    Structure **result = malloc(2 * sizeof(Structure *));
+    
+    result[0] = create_structure();
+    result[0]->head = original->head;
+    Node_ptr current = original->head;
+    for(int i = 0; i < split_index-1; i++) current = current->next;
+    
+    Node_ptr first_tail = current;
+    Node_ptr second_head = current->next;
+    
+    first_tail->next = result[0]->head;
+    result[0]->head->prev = first_tail;
+    
+    result[1] = create_structure();
+    result[1]->head = second_head;
+    Node_ptr second_tail = original->head->prev; 
+    
+    second_tail->next = second_head;
+    second_head->prev = second_tail;
+    
+    return result;
 }
 
-Structure * copy_structure(Structure * original) {
-    if (!original) return NULL;
+Structure *copy_structure(Structure *original) {
+    if (!original || !original->head) return NULL;
 
     Structure *copy = create_structure();
-    Node_ptr aux = original->head;
+    Node_ptr current = original->head;
 
-    while (aux) {
-        Object copied_object = aux->object;
-        add_object(copy, copied_object, aux->type);
-        aux = aux->next;
-    }
+    do {
+        Object copied_object = current->object;
+        add_object(copy, copied_object, current->type);
+        current = current->next;
+    } while (current != original->head);
 
     return copy;
 }
