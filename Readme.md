@@ -2,7 +2,10 @@
 
 Projeto 1 da cadeira de Computação Gráfica - Universidade Federal do Cariri
 
-**Link da apresentação do Canva:** [https://www.canva.com/design/DAGja0JxlJE/K8n2fl86iPNhDvf4dWNvnA/view?utm_content=DAGja0JxlJE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4077a64772](https://www.canva.com/design/DAGja0JxlJE/K8n2fl86iPNhDvf4dWNvnA/view?utm_content=DAGja0JxlJE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4077a64772)
+## Links das apresentações do Canva:**
+- **Apresentação do Paint:** [https://www.canva.com/design/DAGja0JxlJE/K8n2fl86iPNhDvf4dWNvnA/view?utm_content=DAGja0JxlJE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4077a64772](https://www.canva.com/design/DAGja0JxlJE/K8n2fl86iPNhDvf4dWNvnA/view?utm_content=DAGja0JxlJE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4077a64772)
+- **Fecho convexo**: [https://www.canva.com/design/DAGkSkEAVlo/op-sv67zzZyPgns_ygL9MA/view?utm_content=DAGkSkEAVlo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd8fb3af1f9](https://www.canva.com/design/DAGkSkEAVlo/op-sv67zzZyPgns_ygL9MA/view?utm_content=DAGkSkEAVlo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd8fb3af1f9)
+
 
 ## Atalhos do Teclado
 
