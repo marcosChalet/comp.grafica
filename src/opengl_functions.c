@@ -61,13 +61,13 @@ void draw_polygon(Polygon_d * self) {
 
     glDisable(GL_POLYGON_SMOOTH);
 
-    glColor4f(0.4, 0.4, 0.4, 1.0);
-    glBegin(GL_LINE_LOOP);
-    for (int i = 0; i < num_objects; i++) {
-        Point_d *p = (Point_d *)objects_list[i]->object;
-        glVertex2i(p->x, p->y);
-    }
-    glEnd();
+    // glColor4f(0.4, 0.4, 0.4, 1.0);
+    // glBegin(GL_LINE_LOOP);
+    // for (int i = 0; i < num_objects; i++) {
+    //     Point_d *p = (Point_d *)objects_list[i]->object;
+    //     glVertex2i(p->x, p->y);
+    // }
+    // glEnd();
 
     glPointSize(5.0);
     glColor3f(1.0, 0.0, 0.0);
